@@ -41,17 +41,9 @@ class Runtime:
         self.context.current_worker = "default"
 
         try:
-            worker = self.dispatcher.dispatch(plan)
-            response = worker.execute(plan)
-            self.task_manager.complete(task, response)
-            self.bus.publish(
-                RuntimeEvent.TASK_COMPLETED,
-                plan=plan,
-                response=response
-            )
-            return response
-        except Exception:
+            return self._execute(plan, task)
 
+        except Exception:
             self.task_manager.fail(task)
             raise
         
