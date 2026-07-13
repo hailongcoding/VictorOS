@@ -1,0 +1,32 @@
+[jarvis]
+name = "Jarvis"
+version = "0.1.0"
+
+[brain]
+engine = "openjarvis"
+backend = "openjarvis"
+conversation_model = "qwen3.5:4b"
+reasoning_model    = "qwen3.5:4b"
+coding_model       = "qwen3.5:4b"
+research_model     = "qwen3.5:4b"   
+default_model      = "qwen3.5:4b"
+host = "http://localhost:11434"
+temperature = 0.7
+
+[ui]
+theme = "midnight"
+opacity = 0.95
+animations = true
+
+[voice]
+enabled = false
+wake_word = "Jarvis"
+
+[automation]
+enabled = false
+
+[memory]
+enabled = true
+
+[developer]
+debug = true
