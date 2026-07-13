@@ -59,11 +59,29 @@ class Kernel:
         self.brain = BrainService(adapter=adapter)
         self.session = ChatSession(self.brain)
         self.executor = Executor(self.session)
+
         registry = WorkerRegistry()
+
+        default_worker = DefaultWorker(self.executor)
 
         registry.register(
             "default",
-            DefaultWorker(self.executor)
+            default_worker,
+        )
+
+        registry.register(
+            "conversation",
+            default_worker,
+        )
+
+        registry.register(
+            "coding",
+            default_worker,
+        )
+
+        registry.register(
+            "research",
+            default_worker,
         )
 
         self.runtime = Runtime(registry)

@@ -46,3 +46,25 @@ class Director:
                 "task": task.value,
             },
         )
+    
+    def submit(self, request: AssistantRequest):
+        """
+        Submit a request for background execution.
+
+        Returns the Task object created by the Runtime.
+        """
+
+        task = self.classifier.classify(request.prompt)
+
+        model = self.router.choose_model(task)
+
+        plan = ExecutionPlan(
+            prompt=request.prompt,
+            task=task,
+            model=model,
+            agent="simple",
+        )
+
+        print(f"[Director] submitted model = {model}")
+
+        return self.runtime.submit(plan)

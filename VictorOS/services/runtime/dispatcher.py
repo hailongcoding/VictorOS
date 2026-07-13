@@ -14,4 +14,18 @@ class Dispatcher:
         Future versions will route coding, research,
         automation, desktop control, etc.
         """
-        return self.registry.get("default")
+        task_name = plan.task.value.lower()
+
+        if task_name == "conversation":
+            worker_name = "conversation"
+
+        elif task_name == "coding":
+            worker_name = "coding"
+
+        elif task_name == "research":
+            worker_name = "research"
+
+        else:
+            worker_name = "default"
+
+        return self.registry.get(worker_name)
