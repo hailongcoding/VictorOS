@@ -13,6 +13,9 @@ from VictorOS.services.brain.session import ChatSession
 
 from VictorOS.contracts.assistant_request import AssistantRequest
 from VictorOS.services.director.director import Director
+
+from VictorOS.services.command.processor import CommandProcessor
+
 from VictorOS.services.brain.tasks import BrainTask
 from VictorOS.services.brain.router import BrainRouter
 
@@ -44,7 +47,7 @@ class Kernel:
 
     def boot(self) -> None:
         print("=" * 40)
-        print("        JarvisOS v0.1")
+        print("        VictorOS v0.1")
         print("=" * 40)
 
         self.config.load()
@@ -57,8 +60,7 @@ class Kernel:
         adapter = OpenJarvisAdapter()
 
         self.brain = BrainService(adapter=adapter)
-        self.session = ChatSession(self.brain)
-        self.executor = Executor(self.session)
+        self.executor = Executor(self.brain)
 
         registry = WorkerRegistry()
 
@@ -92,6 +94,8 @@ class Kernel:
             router=self.router,
             runtime=self.runtime,
         )
+
+        self.processor = CommandProcessor(self.director)
 
         self.events.subscribe(
             "system.boot",
@@ -136,14 +140,12 @@ class Kernel:
 
             start = time.perf_counter()
 
-            request = AssistantRequest(
-                prompt=prompt,
-                task=BrainTask.CONVERSATION,
-            )
-
-            response = self.director.handle(request)
-
-            print(f"Brain > {response.content}")
+            response = self.processor.process(prompt)
+            
+            if hasattr(response, "content"):
+                print(f"Brain > {response.content}")
+            else:
+                print(response)
 
             elapsed = time.perf_counter() - start
 

@@ -24,26 +24,34 @@ class Director:
 
         self.monitor = RuntimeMonitor(self.runtime.bus)
 
-    def handle(self, request: AssistantRequest) -> AssistantResponse:
+    def _build_plan(self, request: AssistantRequest) -> ExecutionPlan:
+        """
+        Build an execution plan from a user request.
+        """
+
         task = self.classifier.classify(request.prompt)
 
         model = self.router.choose_model(task)
 
-        plan = ExecutionPlan(
+        return ExecutionPlan(
             prompt=request.prompt,
             task=task,
             model=model,
             agent="simple",
         )
-        
-        print(f"[Director] model = {model}")
+
+    def handle(self, request: AssistantRequest) -> AssistantResponse:
+        plan = self._build_plan(request)
+
+        print(f"[Director] model = {plan.model}")
+
         content = self.runtime.run(plan)
 
         return AssistantResponse(
             content=content,
             metadata={
-                "model": model,
-                "task": task.value,
+                "model": plan.model,
+                "task": plan.task.value,
             },
         )
     
@@ -54,17 +62,26 @@ class Director:
         Returns the Task object created by the Runtime.
         """
 
-        task = self.classifier.classify(request.prompt)
+        plan = self._build_plan(request)
 
-        model = self.router.choose_model(task)
-
-        plan = ExecutionPlan(
-            prompt=request.prompt,
-            task=task,
-            model=model,
-            agent="simple",
-        )
-
-        print(f"[Director] submitted model = {model}")
+        print(f"[Director] submitted model = {plan.model}")
 
         return self.runtime.submit(plan)
+
+    def dispatch(self, request: AssistantRequest):
+        """
+        Decide whether a request should execute
+        immediately or in the background.
+        """
+
+        task = self.classifier.classify(request.prompt)
+
+        background_tasks = {
+            "coding",
+            "research",
+        }
+
+        if task.value in background_tasks:
+            return self.submit(request)
+
+        return self.handle(request)

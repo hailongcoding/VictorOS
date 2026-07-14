@@ -7,7 +7,7 @@ from VictorOS.services.brain.adapter import BrainAdapter
 import asyncio
 
 import os
-print("Adapter file:", os.path.abspath(__file__))
+
 
 class OpenJarvisAdapter(BrainAdapter):
 
@@ -25,7 +25,6 @@ class OpenJarvisAdapter(BrainAdapter):
     ) -> str:
         import inspect
 
-        print("Adapter source:", inspect.getsourcefile(self.__class__))
 
         prompt = ""
 
@@ -37,7 +36,6 @@ class OpenJarvisAdapter(BrainAdapter):
 
             prompt += f"{role.upper()}: {content}\n"
 
-        print(f"[Brain] Using model: {model}")    
 
         result = self.jarvis.ask_full(
             prompt,

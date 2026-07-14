@@ -14,11 +14,20 @@ class TaskManager:
     def all(self) -> List[Task]:
         return self.tasks
 
-    def get(self, name: str) -> Task | None:
+    def get_by_name(self, name: str) -> Task | None:
         for task in self.tasks:
             if task.name == name:
                 return task
         return None
+
+    def get(self, task_id: int) -> Task | None:
+        for task in self.tasks:
+            if task.id == task_id:
+                return task
+        return None
+        
+    def exists(self, task_id: int) -> bool:
+        return self.get(task_id) is not None
 
     def queued(self):
         return [
@@ -44,6 +53,22 @@ class TaskManager:
             if t.status == TaskStatus.FAILED
         ]
 
+    def by_status(self, status: TaskStatus):
+        return [
+            task
+            for task in self.tasks
+            if task.status == status
+        ]
+
+    def active(self):
+        return [
+            t for t in self.tasks
+            if t.status in (
+                TaskStatus.QUEUED,
+                TaskStatus.RUNNING,
+            )
+        ]
+
     def start(self, task: Task):
         task.status = TaskStatus.RUNNING
 
@@ -53,3 +78,6 @@ class TaskManager:
 
     def fail(self, task: Task):
         task.status = TaskStatus.FAILED
+
+    def cancel(self, task: Task):
+        task.status = TaskStatus.CANCELLED

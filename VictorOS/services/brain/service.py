@@ -24,7 +24,6 @@ class BrainService(BaseService):
         model=None
 
     ) -> str:
-        print(f"[BrainService] model = {model}")
         return self.adapter.chat(messages,model=model)
     
     def stream_chat(self, messages):

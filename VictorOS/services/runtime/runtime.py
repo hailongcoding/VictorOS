@@ -1,4 +1,15 @@
+from VictorOS.services.notifications.service import NotificationService
+from VictorOS.services.notifications.controller import NotificationController
+from VictorOS.services.notifications.notification import (
+    Notification,
+    NotificationLevel,
+)
+
+from VictorOS.services.task_manager import task
 from VictorOS.services.task_manager.manager import TaskManager
+
+from VictorOS.services.task_manager.controller import TaskController
+
 from VictorOS.services.task_manager.task import Task
 
 from .state import RuntimeState
@@ -19,6 +30,17 @@ class Runtime:
         self.registry = registry
         self.dispatcher = Dispatcher(registry)
         self.task_manager = TaskManager()
+
+        self.tasks = TaskController(
+            self.task_manager
+        )
+        
+        notification_service = NotificationService()
+
+        self.notifications = NotificationController(
+            notification_service
+        )
+
         self.context = RuntimeContext(
             state=RuntimeState.IDLE
         )
@@ -36,15 +58,34 @@ class Runtime:
             payload=plan,
         )
 
-        self.task_manager.submit(task)
-        self.task_manager.start(task)
+        self.tasks.submit(task)
+
+        self.tasks.start(task.id)
+
+        self.notifications.send(
+            Notification(
+                title="Task Started",
+                message=f"{task.name} started.",
+                level=NotificationLevel.INFO,
+            )
+        )
+
         self.context.current_worker = "default"
 
         try:
             return self._execute(plan, task)
 
         except Exception:
-            self.task_manager.fail(task)
+            self.tasks.fail(task.id)
+
+            self.notifications.send(
+                Notification(
+                    title="Task Failed",
+                    message=f"{task.name} failed.",
+                    level=NotificationLevel.ERROR,
+                )
+            )
+
             raise
         
         finally:
@@ -64,7 +105,7 @@ class Runtime:
             payload=plan,
         )
 
-        self.task_manager.submit(task)
+        self.tasks.submit(task)
 
         worker = BackgroundWorker(
             self._run_background,
@@ -78,7 +119,19 @@ class Runtime:
 
     def _run_background(self, plan, task):
 
-        self.task_manager.start(task)
+        self.tasks.start(task.id)
+
+        self.notifications.send(
+            Notification(
+                title="Task Started",
+                message=f"{task.name} started.",
+                level=NotificationLevel.INFO,
+            )
+        )
+
+        self.context.state = RuntimeState.RUNNING
+        self.context.current_plan = plan
+        self.context.current_worker = "default"
 
         self.bus.publish(
             RuntimeEvent.TASK_STARTED,
@@ -90,13 +143,23 @@ class Runtime:
 
         except Exception:
 
-            self.task_manager.fail(task)
+            self.tasks.fail(task.id)
+
+            self.notifications.send(
+                Notification(
+                    title="Task Failed",
+                    message=f"{task.name} failed.",
+                    level=NotificationLevel.ERROR,
+                )
+            )
 
             raise
 
         finally:
 
             self.context.state = RuntimeState.IDLE
+            self.context.current_plan = None
+            self.context.current_worker = None
 
     def _execute(self, plan, task):
 
@@ -104,7 +167,18 @@ class Runtime:
 
         response = worker.execute(plan)
 
-        self.task_manager.complete(task, response)
+        self.tasks.complete(
+            task.id,
+            response,
+        )
+
+        self.notifications.send(
+            Notification(
+                title="Task Completed",
+                message=f"{task.name} completed.",
+                level=NotificationLevel.SUCCESS,
+            )
+        )
 
         self.bus.publish(
             RuntimeEvent.TASK_COMPLETED,

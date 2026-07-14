@@ -163,8 +163,10 @@ That's VictorOS.
 # Philosophy
 
 VictorOS does **not** try to replace OpenJarvis.
-
 VictorOS extends it.
+
+VictorOS does **not** try to build another intelligence and methods and compete with the society, VictorOS implements other working intelligence and methods across internet. 
+
 
 ```
 ┌──────────────────────────────┐
