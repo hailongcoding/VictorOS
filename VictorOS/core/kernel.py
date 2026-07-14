@@ -27,6 +27,9 @@ from VictorOS.services.runtime.runtime import Runtime
 from VictorOS.services.runtime.worker_registry import WorkerRegistry
 from VictorOS.services.runtime.default_worker import DefaultWorker
 
+from VictorOS.services.console.service import ConsoleService
+from VictorOS.services.console.controller import ConsoleController
+
 class Kernel:
     """Central runtime of JarvisOS."""
 
@@ -87,6 +90,12 @@ class Kernel:
         )
 
         self.runtime = Runtime(registry)
+
+        self.console_service = ConsoleService()
+
+        self.console = ConsoleController(
+            self.console_service
+        )
         
         self.router = BrainRouter(self.config)
 
@@ -103,10 +112,16 @@ class Kernel:
         )
 
         self.manager.register(self.brain)
+        self.manager.register(self.console_service)
 
         self.events.publish(
             "system.boot",
             "Kernel Boot Complete"
+        )
+        
+        self.console.info(
+            "Kernel boot complete",
+            source="Kernel",
         )
 
         print()
@@ -158,6 +173,12 @@ class Kernel:
     def shutdown(self) -> None:
         print()
         print("[EVENT] Shutting down...")
+
+        self.console.info(
+            "VictorOS shutting down",
+            source="Kernel",
+        )
+
         self.manager.stop_all()
 
         print("Goodbye!")
