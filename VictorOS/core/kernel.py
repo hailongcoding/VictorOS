@@ -1,11 +1,15 @@
 
 from __future__ import annotations
-from urllib import response
 from VictorOS.core.config import ConfigManager
 from VictorOS.core.events import EventBus
 from VictorOS.core.manager import ServiceManager
 
 import time
+
+from VictorOS.services.capabilities.registry import CapabilityRegistry
+from VictorOS.services.capabilities.provider import CapabilityProvider
+
+from VictorOS.services.intelligence.gateway import IntelligenceGateway
 
 from VictorOS.services.brain.adapter import OllamaAdapter
 from VictorOS.services.brain.service import BrainService
@@ -29,6 +33,13 @@ from VictorOS.services.runtime.default_worker import DefaultWorker
 
 from VictorOS.services.console.service import ConsoleService
 from VictorOS.services.console.controller import ConsoleController
+
+from VictorOS.services.plugins.manager import PluginManager
+
+from VictorOS.services.runtime.events import RuntimeEvent
+
+from VictorOS.services.captain.adapter import CaptainAdapter
+from VictorOS.services.captain.service import CaptainService
 
 class Kernel:
     """Central runtime of JarvisOS."""
@@ -54,6 +65,19 @@ class Kernel:
         print("=" * 40)
 
         self.config.load()
+
+        self.console_service = ConsoleService()
+
+        self.console = ConsoleController(
+            self.console_service
+        )
+
+        self.capabilities = CapabilityRegistry()
+
+        self.gateway = IntelligenceGateway(
+            self.capabilities
+        )
+
 #        adapter = OllamaAdapter(
 #            model=config.get("brain.default_model"),
 #            host=self.config.get("brain.host"),
@@ -62,8 +86,41 @@ class Kernel:
 
         adapter = OpenJarvisAdapter()
 
+        from VictorOS.services.plugins.manager import PluginManager
+
+        self.plugins = PluginManager()
+        self.plugins.register(adapter)
+
         self.brain = BrainService(adapter=adapter)
-        self.executor = Executor(self.brain)
+
+        captain_adapter = CaptainAdapter()
+
+        self.captain = CaptainService(
+            captain_adapter
+        )
+
+        for provider in self.plugins.all():
+
+            manifest = provider.get_manifest()
+
+            for capability in manifest.capabilities:
+                self.capabilities.register(
+                    CapabilityProvider(
+                        name=manifest.name,
+                        capability=capability,
+                        implementation=provider,
+                        priority=manifest.priority,
+                    )
+                )
+
+            self.console.info(
+                f"Registered {manifest.name}",
+                source="Kernel",
+            )
+
+        self.executor = Executor(
+            self.gateway
+        )
 
         registry = WorkerRegistry()
 
@@ -91,12 +148,14 @@ class Kernel:
 
         self.runtime = Runtime(registry)
 
-        self.console_service = ConsoleService()
+#        self.runtime.bus.subscribe(
+#            RuntimeEvent.TASK_COMPLETED,
+#            lambda data: self.captain.task_completed(
+#                data.response
+#            )
+#        )
 
-        self.console = ConsoleController(
-            self.console_service
-        )
-        
+
         self.router = BrainRouter(self.config)
 
         self.director = Director(
@@ -111,7 +170,32 @@ class Kernel:
             lambda message: print(f"[EVENT] {message}")
         )
 
+        self.runtime.bus.subscribe(
+            RuntimeEvent.TASK_STARTED,
+            lambda data: self.console.info(
+                f"Task started: {data.task.name}",
+                source="Runtime",
+            )
+        )
+
+        self.runtime.bus.subscribe(
+            RuntimeEvent.TASK_COMPLETED,
+            lambda data: self.console.info(
+                f"Task completed: {data.task.name}",
+                source="Runtime",
+            )
+        )
+
+        self.runtime.bus.subscribe(
+            RuntimeEvent.TASK_FAILED,
+            lambda data: self.console.info(
+                f"Task failed: {data.task.name}",
+                source="Runtime",
+            )
+        )
+
         self.manager.register(self.brain)
+        self.manager.register(self.captain)
         self.manager.register(self.console_service)
 
         self.events.publish(
@@ -156,9 +240,19 @@ class Kernel:
             start = time.perf_counter()
 
             response = self.processor.process(prompt)
-            
+
             if hasattr(response, "content"):
                 print(f"Brain > {response.content}")
+
+            elif hasattr(response, "name"):
+                print("Brain >")
+
+                print()
+
+                print(f"I've started a {response.name} task.")
+
+                print("You can continue talking while I work.")
+
             else:
                 print(response)
 

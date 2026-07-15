@@ -22,6 +22,10 @@ from VictorOS.services.runtime.dispatcher import Dispatcher
 
 from VictorOS.services.runtime.background_worker import BackgroundWorker
 
+from VictorOS.services.runtime.events import RuntimeEvent
+
+from VictorOS.services.runtime.event_data import RuntimeEventData
+
 
 class Runtime:
 
@@ -48,11 +52,7 @@ class Runtime:
     def run(self, plan):
 
         self.context.state = RuntimeState.RUNNING
-        self.bus.publish(
-            RuntimeEvent.TASK_STARTED,
-            plan=plan
-        )
-        self.context.current_plan = plan
+
         task = Task(
             name=plan.task.value,
             payload=plan,
@@ -61,6 +61,13 @@ class Runtime:
         self.tasks.submit(task)
 
         self.tasks.start(task.id)
+
+        self.bus.publish(
+            RuntimeEvent.TASK_STARTED,
+            data=RuntimeEventData(
+                task=task,
+            )
+        )
 
         self.notifications.send(
             Notification(
@@ -75,8 +82,17 @@ class Runtime:
         try:
             return self._execute(plan, task)
 
-        except Exception:
+        except Exception as e:
+
             self.tasks.fail(task.id)
+
+            self.bus.publish(
+                RuntimeEvent.TASK_FAILED,
+                data=RuntimeEventData(
+                    task=task,
+                    error=e,
+                )
+            )
 
             self.notifications.send(
                 Notification(
@@ -135,15 +151,25 @@ class Runtime:
 
         self.bus.publish(
             RuntimeEvent.TASK_STARTED,
-            plan=plan,
+            data=RuntimeEventData(
+                task=task,
+            )
         )
 
         try:
             response = self._execute(plan, task)
 
-        except Exception:
+        except Exception as e:
 
             self.tasks.fail(task.id)
+
+            self.bus.publish(
+                RuntimeEvent.TASK_FAILED,
+                data=RuntimeEventData(
+                    task=task,
+                    error=e,
+                )
+            )
 
             self.notifications.send(
                 Notification(
@@ -165,11 +191,29 @@ class Runtime:
 
         worker = self.dispatcher.dispatch(plan)
 
-        response = worker.execute(plan)
+        self.tasks.set_progress(
+            task.id,
+            10,
+            "Starting worker",
+        )
+
+        result = worker.execute(plan)
+
+        self.tasks.set_progress(
+            task.id,
+            90,
+            "Finalizing",
+        )
 
         self.tasks.complete(
             task.id,
-            response,
+            result,
+        )
+
+        self.tasks.set_progress(
+            task.id,
+            100,
+            "Completed",
         )
 
         self.notifications.send(
@@ -179,11 +223,11 @@ class Runtime:
                 level=NotificationLevel.SUCCESS,
             )
         )
-
         self.bus.publish(
             RuntimeEvent.TASK_COMPLETED,
-            plan=plan,
-            response=response
+            data=RuntimeEventData(
+                task=task,
+                response=result,
+            )
         )
-
-        return response
+        return result

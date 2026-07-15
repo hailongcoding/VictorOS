@@ -100,3 +100,17 @@ class TaskController:
             return None
 
         return task.result
+
+    def set_progress(
+        self,
+        task_id: int,
+        progress: int,
+        step: str,
+    ):
+        task = self.manager.get(task_id)
+
+        if task is None:
+            return
+
+        task.progress = progress
+        task.current_step = step

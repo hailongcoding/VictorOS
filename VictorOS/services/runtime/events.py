@@ -1,7 +1,9 @@
-from enum import Enum, auto
+from enum import Enum
 
 
-class RuntimeEvent(Enum):
-    TASK_STARTED = auto()
-    TASK_COMPLETED = auto()
-    TASK_FAILED = auto()
+class RuntimeEvent(str, Enum):
+    TASK_SUBMITTED = "task.submitted"
+    TASK_STARTED = "task.started"
+    TASK_COMPLETED = "task.completed"
+    TASK_FAILED = "task.failed"
+    TASK_PROGRESS = "task.progress"

@@ -1,5 +1,6 @@
 from .events import RuntimeEvent
 
+from .event_data import RuntimeEventData
 
 class RuntimeMonitor:
 
@@ -16,8 +17,14 @@ class RuntimeMonitor:
             self.on_task_completed
         )
 
-    def on_task_started(self, plan):
-        print(f"[Runtime] Started: {plan.task.value}")
+        self.bus.subscribe(
+            RuntimeEvent.TASK_FAILED,
+            self.on_task_failed,
+        )
 
-    def on_task_completed(self, plan, response):
-        print(f"[Runtime] Completed: {plan.task.value}")
+    def on_task_started(self, data: RuntimeEventData):
+        print(f"[Runtime] Started: {data.task.name}")
+    def on_task_completed(self, data: RuntimeEventData):
+        print(f"[Runtime] Completed: {data.task.name}")
+    def on_task_failed(self, data: RuntimeEventData):
+        print(f"[Runtime] Failed: {data.task.name}")

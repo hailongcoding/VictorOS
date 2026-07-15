@@ -12,6 +12,8 @@ from VictorOS.services.director.intent_classifier import IntentClassifier
 
 from VictorOS.services.runtime.runtime_monitor import RuntimeMonitor
 
+
+
 class Director:
     def __init__(
         self,
@@ -45,11 +47,12 @@ class Director:
 
         print(f"[Director] model = {plan.model}")
 
-        content = self.runtime.run(plan)
+        result = self.runtime.run(plan)
 
         return AssistantResponse(
-            content=content,
+            content=result.summary,
             metadata={
+                "execution": result,
                 "model": plan.model,
                 "task": plan.task.value,
             },

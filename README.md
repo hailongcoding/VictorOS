@@ -2,15 +2,15 @@
 
 # VictorOS
 
-### The AI Operating System
+### The proactive AI Operating System
 
-**The future isn't a smarter chatbot. It's an operating system built for AI.**
+*"AI shouldn't stop working because you asked another question."*
 
-Built on top of OpenJarvis.
+Built on top of OpenJarvis and designed to orchestrate the best intelligence available.
 
 ---
 
-*"Most AI applications answer requests. VictorOS manages work."*
+Current Version: **v0.1 (Architecture)**
 
 </div>
 
@@ -18,215 +18,61 @@ Built on top of OpenJarvis.
 
 # What is VictorOS?
 
-AI has become incredibly intelligent.
+VictorOS is **not another chatbot.**
 
-Yet interacting with AI still feels like using software from the 1990s.
+VictorOS is an **AI Operating System**.
+
+Instead of trying to build another intelligence model, VictorOS manages, coordinates, and orchestrates intelligence from multiple proven AI systems.
+
+Think of it like this:
 
 ```
-Ask.
-
-Wait.
-
-Receive.
-
-Repeat.
-```
-
-Every new request interrupts the previous one.
-
-Every conversation begins from scratch.
-
-Every task competes for your attention.
-
-VictorOS changes that.
-
-VictorOS is an **AI Operating System** designed to continuously plan, schedule, execute, and manage work while you continue living your life.
-
----
-
-# Why VictorOS?
-
-Current AI is built around prompts.
-
-VictorOS is built around **work**.
-
-Instead of asking:
-
-> "What should the AI say next?"
-
-VictorOS asks:
-
-> **"What should the AI be doing right now?"**
-
----
-
-# The Difference
-
 Traditional AI
 
-```
-User
-   │
-   ▼
-Prompt
-   │
-   ▼
-Response
-   │
- Done
+Ask
+ ↓
+Wait
+ ↓
+Answer
 ```
 
 VictorOS
 
 ```
-                 User
-                   │
-                   ▼
-          Conversation Layer
-                   │
-                   ▼
-              Victor Runtime
-         ┌─────────┼─────────┐
-         │         │         │
-         ▼         ▼         ▼
-     Coding    Research   Automation
-         │         │         │
-         └──────┬──┴─────────┘
-                ▼
-          Intelligence Engine
-            (OpenJarvis)
+Ask
+ ↓
+Captain
+ ↓
+Runtime
+ ↓
+Workers
+ ↓
+Background Tasks
+ ↓
+Continue talking...
 ```
 
 The conversation never blocks.
 
-The work never disappears.
-
----
-
-# Imagine This
-
-You:
-
-> Victor, create me a portfolio website.
-
-Victor:
-
-> On it.
-
-Website generation begins.
-
-While it's still running...
-
-You:
-
-> Research the history of the Apollo missions.
-
-Victor:
-
-> Started.
-
-Research begins.
-
-Then...
-
-You:
-
-> Organize my Downloads folder.
-
-Victor:
-
-> Done.
-
-Meanwhile...
-
-```
-Website
-████████░░░░ 65%
-
-Research
-██████░░░░░░ 40%
-
-Downloads
-████████████ Done
-```
-
-You never waited.
-
-You never lost your conversation.
-
-The work continued in the background.
-
-That's VictorOS.
+The work never stops.
 
 ---
 
 # Philosophy
 
-VictorOS does **not** try to replace OpenJarvis.
-VictorOS extends it.
+VictorOS does **not** compete with OpenJarvis.
 
-VictorOS does **not** try to build another intelligence and methods and compete with the society, VictorOS implements other working intelligence and methods across internet. 
+VictorOS does **not** reinvent existing AI frameworks.
 
+Instead,
 
-```
-┌──────────────────────────────┐
-│          VictorOS            │
-│                              │
-│ Runtime                      │
-│ Task Manager                 │
-│ Scheduler                    │
-│ Worker Registry              │
-│ Memory                       │
-│ Desktop Automation           │
-│ Voice                        │
-│ Personality                  │
-│ Plugins                      │
-│ Notifications                │
-└───────────────┬──────────────┘
-                │
-                ▼
-┌──────────────────────────────┐
-│         OpenJarvis           │
-│                              │
-│ Intelligence                 │
-│ Agents                       │
-│ Planning                     │
-│ Models                       │
-│ Tool Calling                 │
-└──────────────────────────────┘
-```
+VictorOS integrates and orchestrates proven intelligence from across the AI ecosystem.
 
-OpenJarvis provides intelligence.
-
-VictorOS provides the operating system.
-
----
-
-# Core Principles
-
-## Runtime First
-
-The Runtime is the heart of VictorOS.
-
-Everything executes through it.
-
-It owns:
-
-- Task scheduling
-- Background execution
-- Worker lifecycle
-- Progress tracking
-- Future multitasking
-
----
-
-## Never Rebuild OpenJarvis
-
-If OpenJarvis already provides a capability,
+If a capability already exists...
 
 VictorOS uses it.
 
-VictorOS wraps it.
+VictorOS manages it.
 
 VictorOS improves the experience around it.
 
@@ -234,44 +80,131 @@ We build the operating system—not another intelligence framework.
 
 ---
 
-## Everything Has One Responsibility
+# Architecture
 
 ```
-Kernel
-    │
-    ▼
-Director
-    │
-    ▼
-Execution Plan
-    │
-    ▼
-Runtime
-    │
-    ▼
-Worker Registry
-    │
-    ▼
-Workers
-    │
-    ▼
-Brain
-    │
-    ▼
-OpenJarvis
+                    User
+                      │
+                      ▼
+                Captain Layer
+          (Conversation Manager)
+                      │
+          ┌───────────┴────────────┐
+          │                        │
+          ▼                        ▼
+     Runtime Engine          Task Manager
+          │
+          ▼
+    Worker Registry
+          │
+ ┌────────┼────────┐
+ │        │        │
+ ▼        ▼        ▼
+Coding  Research Automation
+ │        │        │
+ └────────┴────────┘
+          │
+          ▼
+ Intelligence Gateway
+          │
+ Capability Registry
+          │
+ ┌────────┼──────────────┐
+ │        │              │
+ ▼        ▼              ▼
+OpenJarvis Whisper    Future Providers
 ```
 
-Clean architecture.
+VictorOS manages work.
 
-Replaceable components.
-
-Future-proof design.
+Providers provide intelligence.
 
 ---
 
-## Intelligence Is Replaceable
+# Captain Layer
 
-VictorOS isn't tied to a single AI engine.
+The Captain is VictorOS's front-facing intelligence.
+
+Its responsibilities are:
+
+- Understand requests
+- Hold conversations
+- Route tasks
+- Start background work
+- Summarize progress
+- Notify completion
+
+The Captain should always respond quickly.
+
+Workers perform the long-running work.
+
+Example:
+
+```
+You:
+Code me a website.
+
+Victor:
+Website generation started.
+
+Task #12 is now running.
+
+You:
+Research the history of AI.
+
+Victor:
+Research started.
+
+Task #13 is now running.
+```
+
+Meanwhile...
+
+```
+Website
+████████░░░░ 70%
+
+Research
+████░░░░░░░ 30%
+```
+
+The conversation continues while work happens in the background.
+
+---
+
+# Runtime
+
+The Runtime is the heart of VictorOS.
+
+Responsibilities include:
+
+- Task Scheduling
+- Background Execution
+- Parallel Workers
+- Progress Tracking
+- Notifications
+- Future Automation
+
+Every task passes through the Runtime.
+
+---
+
+# Intelligence Gateway
+
+VictorOS never directly depends on a single AI provider.
+
+Instead:
+
+```
+Runtime
+      │
+      ▼
+Intelligence Gateway
+      │
+Capability Registry
+      │
+Provider
+```
 
 Today:
 
@@ -279,82 +212,144 @@ Today:
 
 Tomorrow:
 
-- Local Models
-- Ollama
-- Future AI Frameworks
+- Whisper
+- Piper
+- Qwen-VL
+- Browser Use
+- OCR
+- Future AI projects
 
-The Runtime stays the same.
-
----
-
-# Why It Exists
-
-Current AI software is excellent at generating answers.
-
-VictorOS is designed to accomplish goals.
-
-Instead of simply generating text,
-
-VictorOS coordinates:
-
-- Planning
-- Scheduling
-- Automation
-- Desktop interaction
-- Long-running tasks
-- Memory
-- Plugins
-- Voice
-- Notifications
-
-The language model is only one component.
+VictorOS remains unchanged.
 
 ---
 
-# Roadmap
+# Core Principles
 
-## Core Architecture
+## Runtime First
 
-- ✅ Kernel
-- ✅ Director
-- ✅ Runtime
-- ✅ Worker Registry
-- ✅ Brain Integration
-- ✅ OpenJarvis Adapter
+Everything executes through the Runtime.
 
 ---
+
+## Never Rebuild Intelligence
+
+VictorOS implements existing intelligence.
+
+It does not compete with it.
+
+---
+
+## Replaceable Components
+
+Every subsystem has one responsibility.
+
+Kernel
+
+↓
+
+Director
+
+↓
+
+Runtime
+
+↓
+
+Workers
+
+↓
+
+Gateway
+
+↓
+
+Provider
+
+Every layer is replaceable.
+
+---
+
+## Capability Driven
+
+VictorOS doesn't ask:
+
+> Which AI should I use?
+
+VictorOS asks:
+
+> Which provider offers this capability?
+
+Examples:
+
+```
+conversation
+
+coding
+
+research
+
+vision
+
+speech
+
+browser
+
+automation
+```
+
+Providers register themselves.
+
+VictorOS discovers them.
+
+---
+
+# Current Features
+
+- Kernel
+- Runtime
+- Director
+- Task Manager
+- Worker Registry
+- Console Service
+- Intelligence Gateway
+- Capability Registry
+- OpenJarvis Provider
+- Background Tasks
+- Progress Tracking
+- Event Bus
+
+---
+
+# Planned Features
 
 ## Runtime
 
-- Background Tasks
+- Task Scheduling
 - Task Queue
-- Worker Scheduling
 - Parallel Execution
-- Task Progress
 - Cancellation
 - Notifications
+- Priorities
 
 ---
 
 ## Desktop
 
 - Floating Assistant
-- Desktop Overlay
-- Clipboard
+- Overlay
 - File Management
 - OCR
 - Vision
-- Screen Understanding
+- Clipboard
 
 ---
 
 ## Automation
 
+- Browser Automation
 - Mouse Control
 - Keyboard Control
-- Browser Automation
 - Workflow Recording
-- Background Automation
 
 ---
 
@@ -362,54 +357,132 @@ The language model is only one component.
 
 - Wake Word
 - Speech Recognition
-- Natural Conversation
-- Continuous Listening
+- Continuous Conversation
 
 ---
 
 ## Memory
 
 - Long-term Memory
-- Relationship Layer
-- Personal Preferences
+- User Preferences
 - Daily Context
 
 ---
 
-## Plugins
+## Personality and relationship
 
-- Community Plugins
-- Custom Skills
-- Extensions
-- APIs
+- Remember work flows
+- Feels like it is living right near you
+- Act and reminds you.
 
 ---
 
-# Mission
+## Plugin Ecosystem
 
-We're not building another chatbot.
+VictorOS will support discoverable providers.
 
-We're building the operating system AI has been missing.
+Example:
+
+```
+plugins/
+
+openjarvis/
+
+whisper/
+
+browser_use/
+
+vision/
+
+ocr/
+
+automation/
+```
+
+Every plugin simply declares:
+
+```
+I provide:
+
+- conversation
+- coding
+- research
+- vision
+```
+
+VictorOS loads it automatically.
+
+---
+
+# Enterprise Vision
+
+VictorOS is designed to become the operating layer for AI inside organizations.
+
+Future enterprise capabilities include:
+
+- Team Workspaces
+- Shared Memory
+- Audit Logs
+- RBAC
+- SSO
+- Private Deployment
+- Usage Analytics
+- Admin Dashboard
+- Approval Workflows
+- Secure Automation
+- Plugin Marketplace
+
+---
+
+# Why VictorOS?
+
+Current AI answers prompts.
+
+VictorOS manages work.
+
+Current AI waits.
+
+VictorOS continues running.
+
+Current AI finishes conversations.
+
+VictorOS finishes goals.
+
+---
+
+# Tech Stack
+
+Current
+
+- Python
+- OpenJarvis
+- Ollama
+
+Future Integrations
+
+- Whisper
+- Piper
+- Browser Use
+- Qwen-VL
+- OCR
+- Local Models
+- Community Providers
 
 ---
 
 # Vision
 
-Imagine waking up.
+Imagine opening your computer.
 
-Victor already knows today's schedule.
+Victor has already:
 
-It has organized yesterday's downloads.
+- Finished generating code overnight.
+- Organized your downloads.
+- Summarized today's documents.
+- Researched yesterday's request.
+- Prepared your daily briefing.
 
-It finished generating code overnight.
-
-It summarized your unread documents.
-
-It reminds you about a meeting.
-
-It starts researching something you asked yesterday.
-
-And while all of that is happening...
+While all of that happens...
 
 You simply continue talking.
 
@@ -417,41 +490,11 @@ Victor never stopped working.
 
 ---
 
-# Tech Stack
-
-- Python
-- OpenJarvis
-- Ollama
-- Local LLMs
-
-Future:
-
-- Vision
-- Desktop Automation
-- Voice
-- Plugin Ecosystem
-
----
-
 # Guiding Principle
 
-> AI shouldn't stop working because you asked another question.
+> Intelligence answers questions.
 
----
-
-# The Future
-
-Current AI answers questions.
-
-VictorOS manages work.
-
-Current AI waits for prompts.
-
-VictorOS runs continuously.
-
-Current AI completes conversations.
-
-VictorOS completes goals.
+> VictorOS manages work.
 
 ---
 
@@ -459,10 +502,10 @@ VictorOS completes goals.
 
 ## VictorOS
 
-**An AI Operating System.**
+### The AI Operating System
 
-*"Prompt in. Response out. That's where most AI stops.*
+*"Not another AI.*
 
-*VictorOS starts there."*
+*The operating system that coordinates them."*
 
 </div>

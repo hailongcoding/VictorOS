@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from VictorOS.services.capabilities.manifest import ProviderManifest
+
 from openjarvis import Jarvis
 
 from VictorOS.services.brain.adapter import BrainAdapter
@@ -55,6 +57,22 @@ class OpenJarvisAdapter(BrainAdapter):
 
         async for token in self.jarvis.ask_stream(prompt):
             yield token
+    
+    def get_manifest(self) -> ProviderManifest:
+        return ProviderManifest(
+            name="OpenJarvis",
+            version="1.0",
+            author="OpenJarvis",
+            description="General intelligence provider",
+
+            capabilities=[
+                "conversation",
+                "coding",
+                "research",
+            ],
+
+            priority=10,
+        )
 
     def close(self):
         self.jarvis.close()
