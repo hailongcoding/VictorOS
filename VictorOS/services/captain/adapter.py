@@ -1,4 +1,4 @@
-from openjarvis import Jarvis
+import requests
 
 from VictorOS.services.brain.adapter import BrainAdapter
 from VictorOS.services.capabilities.manifest import ProviderManifest
@@ -8,44 +8,68 @@ from .prompts import CAPTAIN_SYSTEM_PROMPT
 
 class CaptainAdapter(BrainAdapter):
 
-    def __init__(self):
-        self.jarvis = Jarvis(
-            model="qwen3:0.6b"
-        )
+    def __init__(
+        self,
+        model="qwen3:0.6b",
+        host="http://localhost:11434",
+    ):
+        self.model = model
+        self.host = host.rstrip("/")
+
+        self.session = requests.Session()
+
+        self.headers = {
+            "Content-Type": "application/json",
+        }
 
     def chat(
         self,
         messages,
         model=None,
     ):
-        prompt = CAPTAIN_SYSTEM_PROMPT + "\n\n"
+        payload = {
+            "model": model or self.model,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": CAPTAIN_SYSTEM_PROMPT,
+                },
+                *messages,
+            ],
+            "stream": False,
+            "think": False,
+        }
 
-        for message in messages:
-            prompt += (
-                f"{message['role'].upper()}: "
-                f"{message['content']}\n"
-            )
+        print("=" * 40)
+        print("CAPTAIN MODEL")
+        print(payload["model"])
+        print("=" * 40)
 
-        result = self.jarvis.ask_full(
-            prompt,
-            agent="orchestrator",
-            model=model,
+        import time
+
+        start = time.perf_counter()
+
+        response = self.session.post(
+            f"{self.host}/api/chat",
+            json=payload,
+            headers=self.headers,
+            timeout=60,
         )
 
-        return result["content"]
+        elapsed = time.perf_counter() - start
 
-    async def stream_chat(self, messages):
+        print(f"[Captain] HTTP: {elapsed:.2f}s")
 
-        prompt = CAPTAIN_SYSTEM_PROMPT + "\n\n"
+        response.raise_for_status()
 
-        for message in messages:
-            prompt += (
-                f"{message['role'].upper()}: "
-                f"{message['content']}\n"
-            )
+        content = response.json()["message"]["content"]
 
-        async for token in self.jarvis.ask_stream(prompt):
-            yield token
+        total = time.perf_counter() - start
+
+        print(f"[Captain] Total: {total:.2f}s")
+
+        return content        
+
 
     def get_manifest(self):
         return ProviderManifest(
@@ -62,4 +86,4 @@ class CaptainAdapter(BrainAdapter):
         )
 
     def close(self):
-        self.jarvis.close()
+        self.session.close()

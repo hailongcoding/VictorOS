@@ -39,10 +39,18 @@ class OpenJarvisAdapter(BrainAdapter):
             prompt += f"{role.upper()}: {content}\n"
 
 
+        import time
+
+        start = time.perf_counter()
+
         result = self.jarvis.ask_full(
             prompt,
             agent="orchestrator",
             model=model
+        )
+
+        print(
+            f"[Brain] {time.perf_counter()-start:.2f}s" 
         )
 
         return result["content"]

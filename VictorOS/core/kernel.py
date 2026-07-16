@@ -234,8 +234,14 @@ class Kernel:
             if prompt.lower() in ("exit", "quit"):
                 break
 
-            print("Thinking...")
+            decision = self.captain.handle(prompt)
 
+            if decision.handled:
+                print(f"Captain > {decision.response}")
+                print()
+                continue
+
+            print("Thinking...")
 
             start = time.perf_counter()
 
@@ -245,13 +251,14 @@ class Kernel:
                 print(f"Brain > {response.content}")
 
             elif hasattr(response, "name"):
-                print("Brain >")
+
+                print("Captain >")
 
                 print()
 
-                print(f"I've started a {response.name} task.")
-
-                print("You can continue talking while I work.")
+                print(
+                    self.captain.acknowledge(response)
+                )
 
             else:
                 print(response)
