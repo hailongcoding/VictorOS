@@ -1,3 +1,7 @@
+import json
+
+from VictorOS.contracts.captain_response import CaptainResponse
+
 import requests
 
 from VictorOS.services.brain.adapter import BrainAdapter
@@ -7,6 +11,50 @@ from .prompts import CAPTAIN_SYSTEM_PROMPT
 
 
 class CaptainAdapter(BrainAdapter):
+    import json
+
+    from VictorOS.contracts.captain_response import CaptainResponse
+
+    def handle(self, prompt: str):
+
+        raw = self.chat(
+            [
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ]
+        )
+
+        text = raw.strip()
+
+        upper = text.upper()
+
+        if upper.startswith("ACTION: DELEGATE"):
+
+            speak = text.split("\n", 1)[1].strip()
+
+            return CaptainResponse(
+                action="delegate",
+                reply=speak,
+                use_brain=True,
+            )
+
+        if upper.startswith("ACTION: ANSWER"):
+
+            speak = text.split("\n", 1)[1].strip()
+
+            return CaptainResponse(
+                action="reply",
+                reply=speak,
+                use_brain=False,
+            )
+
+        return CaptainResponse(
+            action="reply",
+            reply=text,
+            use_brain=False,
+        )
 
     def __init__(
         self,
@@ -45,9 +93,6 @@ class CaptainAdapter(BrainAdapter):
         print(payload["model"])
         print("=" * 40)
 
-        import time
-
-        start = time.perf_counter()
 
         response = self.session.post(
             f"{self.host}/api/chat",
@@ -56,21 +101,13 @@ class CaptainAdapter(BrainAdapter):
             timeout=60,
         )
 
-        elapsed = time.perf_counter() - start
-
-        print(f"[Captain] HTTP: {elapsed:.2f}s")
 
         response.raise_for_status()
 
         content = response.json()["message"]["content"]
 
-        total = time.perf_counter() - start
-
-        print(f"[Captain] Total: {total:.2f}s")
-
-        return content        
-
-
+        return content
+    
     def get_manifest(self):
         return ProviderManifest(
             name="Captain",

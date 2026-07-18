@@ -29,7 +29,7 @@ from VictorOS.services.runtime.event_data import RuntimeEventData
 
 class Runtime:
 
-    def __init__(self, registry):
+    def __init__(self, registry, bus):
         self.bus = RuntimeEventBus()
         self.registry = registry
         self.dispatcher = Dispatcher(registry)

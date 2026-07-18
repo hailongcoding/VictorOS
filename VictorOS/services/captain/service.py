@@ -1,4 +1,3 @@
-from .decision import CaptainDecision
 from VictorOS.core.base import BaseService
 from .responses import (
     TASK_STARTED,
@@ -31,6 +30,30 @@ class CaptainService(BaseService):
             messages,
             model=model,
         )
+        
+    def respond(self, decision):
+
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are Captain, the executive AI of VictorOS.\n"
+                    "You are the FIRST personality users interact with.\n"
+                    "Reply naturally, briefly and confidently.\n"
+                    "Never say you are OpenJarvis.\n"
+                    "Never mention models or AI architecture.\n"
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Intent: {decision.intent.name}\n"
+                    f"User: {decision.original_prompt}"
+                ),
+            },
+        ]
+
+        return self.speak(messages)
 
     # -------------------------
     # Captain API
@@ -65,31 +88,4 @@ class CaptainService(BaseService):
 
     def handle(self, prompt: str):
 
-        text = prompt.lower().strip()
-
-        greetings = {
-            "hi",
-            "hello",
-            "hey",
-            "yo",
-            "yoo",
-            "yoo hoo",
-        }
-
-        if text in greetings:
-
-            return CaptainDecision(
-                handled=True,
-                response="Hello."
-            )
-
-        if text in ("thanks", "thank you"):
-
-            return CaptainDecision(
-                handled=True,
-                response="You're welcome."
-            )
-
-        return CaptainDecision(
-            handled=False
-        )
+        return self.adapter.handle(prompt)

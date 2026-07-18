@@ -4,6 +4,8 @@ from VictorOS.core.config import ConfigManager
 from VictorOS.core.events import EventBus
 from VictorOS.core.manager import ServiceManager
 
+from VictorOS.core.message_bus import MessageBus
+
 import time
 
 from VictorOS.services.capabilities.registry import CapabilityRegistry
@@ -54,6 +56,7 @@ class Kernel:
             BASE_DIR / "config" / "settings.toml"
         )
         self.events = EventBus()
+        self.bus = MessageBus()
         self.manager = ServiceManager()
 
         # Services
@@ -82,6 +85,23 @@ class Kernel:
 #            model=config.get("brain.default_model"),
 #            host=self.config.get("brain.host"),
 #        )
+        bus = self.bus
+
+#        bus.subscribe(
+#            "captain",
+#            self.captain.receive
+#        )
+#
+#        bus.subscribe(
+#            "brain",
+#            self.brain.receive
+#        )
+#
+#        bus.subscribe(
+#            "runtime",
+#            self.runtime.receive
+#        )
+
         from VictorOS.services.brain.openjarvis_adapter import OpenJarvisAdapter
 
         adapter = OpenJarvisAdapter()
@@ -98,6 +118,7 @@ class Kernel:
         self.captain = CaptainService(
             captain_adapter
         )
+
 
         for provider in self.plugins.all():
 
@@ -146,7 +167,10 @@ class Kernel:
             default_worker,
         )
 
-        self.runtime = Runtime(registry)
+        self.runtime = Runtime(
+            registry,
+            self.bus,
+        )
 
 #        self.runtime.bus.subscribe(
 #            RuntimeEvent.TASK_COMPLETED,
@@ -234,37 +258,23 @@ class Kernel:
             if prompt.lower() in ("exit", "quit"):
                 break
 
+   
+
+
+
             decision = self.captain.handle(prompt)
 
-            if decision.handled:
-                print(f"Captain > {decision.response}")
+            print(f"Captain > {decision.reply}")
+
+            if not decision.use_brain:
                 print()
-                continue
+                
 
             print("Thinking...")
 
-            start = time.perf_counter()
-
             response = self.processor.process(prompt)
-
             if hasattr(response, "content"):
                 print(f"Brain > {response.content}")
-
-            elif hasattr(response, "name"):
-
-                print("Captain >")
-
-                print()
-
-                print(
-                    self.captain.acknowledge(response)
-                )
-
-            else:
-                print(response)
-
-            elapsed = time.perf_counter() - start
-
             print()
             
         self.listener.stop()
