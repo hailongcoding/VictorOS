@@ -1,4 +1,4 @@
-from VictorOS.contracts.assistant_request import AssistantRequest
+from VictorOS.core.contracts.assistant_request import AssistantRequest
 
 
 class CommandProcessor:

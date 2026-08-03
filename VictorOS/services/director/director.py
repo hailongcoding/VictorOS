@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from openjarvis.learning.spec_search import plan
 
-from VictorOS.contracts.assistant_request import AssistantRequest
-from VictorOS.contracts.assistant_response import AssistantResponse
+from VictorOS.core.contracts.assistant_request import AssistantRequest
+from VictorOS.core.contracts.assistant_response import AssistantResponse
 from VictorOS.services.brain.router import BrainRouter
 
-from VictorOS.contracts.execution_plan import ExecutionPlan
+from VictorOS.core.contracts.execution_plan import ExecutionPlan
 
 from VictorOS.services.director.intent_classifier import IntentClassifier
 

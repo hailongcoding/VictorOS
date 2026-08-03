@@ -1,31 +1,17 @@
-from VictorOS.contracts.execution_plan import ExecutionPlan
-from VictorOS.services.brain.session import ChatSession
-from VictorOS.services.intelligence.gateway import IntelligenceGateway
-from VictorOS.services.brain.session import ChatSession
+from VictorOS.services.providers.gateway import ProviderGateway
 
-from VictorOS.contracts.execution_result import ExecutionResult
+from VictorOS.core.contracts.execution_result import ExecutionResult
+from VictorOS.core.contracts.execution_request import ExecutionRequest
+
 
 class Executor:
 
-    def __init__(self, gateway: IntelligenceGateway):
+    def __init__(self, gateway: ProviderGateway):
         self.gateway = gateway
 
-    def execute(self, plan: ExecutionPlan):
+    def execute(
+        self,
+        request: ExecutionRequest,
+    ) -> ExecutionResult:
 
-        provider = self.gateway.provider(
-            plan.task.value
-        )
-
-        session = ChatSession(provider)
-
-        response = session.ask(
-            plan.prompt,
-            model=plan.model,
-        )
-
-        return ExecutionResult(
-            success=True,
-            summary=response,
-            artifacts=[],
-            actions=[],
-        )
+        return self.gateway.execute(request)

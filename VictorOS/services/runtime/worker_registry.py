@@ -1,5 +1,4 @@
-from VictorOS.services.runtime.worker import Worker
-
+from VictorOS.core.contracts.worker import Worker
 
 class WorkerRegistry:
 

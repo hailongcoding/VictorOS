@@ -6,7 +6,7 @@ class Dispatcher:
     def __init__(self, registry: WorkerRegistry):
         self.registry = registry
 
-    def dispatch(self, plan):
+    def dispatch(self, request):
         """
         Decide which worker should execute this plan.
 
@@ -14,15 +14,15 @@ class Dispatcher:
         Future versions will route coding, research,
         automation, desktop control, etc.
         """
-        task_name = plan.task.value.lower()
+        capability = request.capability.lower()
 
-        if task_name == "conversation":
+        if capability == "conversation":
             worker_name = "conversation"
 
-        elif task_name == "coding":
+        elif capability ==  "coding":
             worker_name = "coding"
 
-        elif task_name == "research":
+        elif capability ==  "research":
             worker_name = "research"
 
         else:

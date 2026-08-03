@@ -6,6 +6,10 @@ from openjarvis import Jarvis
 
 from VictorOS.services.brain.adapter import BrainAdapter
 
+from VictorOS.core.contracts.execution_request import ExecutionRequest
+from VictorOS.core.contracts.execution_result import ExecutionResult
+from VictorOS.services.brain.session import ChatSession
+
 import asyncio
 
 import os
@@ -65,6 +69,28 @@ class OpenJarvisAdapter(BrainAdapter):
 
         async for token in self.jarvis.ask_stream(prompt):
             yield token
+
+    def execute(
+        self,
+        request: ExecutionRequest,
+    ) -> ExecutionResult:
+
+        session = ChatSession(self)
+
+        prompt = (
+            request.payload.get("prompt")
+            or request.payload.get("goal")
+            or ""
+        )
+
+        response = session.ask(prompt)
+
+        return ExecutionResult(
+            success=True,
+            summary=response,
+            artifacts=[],
+            actions=[],
+        )
     
     def get_manifest(self) -> ProviderManifest:
         return ProviderManifest(

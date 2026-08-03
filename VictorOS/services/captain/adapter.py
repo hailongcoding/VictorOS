@@ -1,6 +1,6 @@
 import json
 
-from VictorOS.contracts.captain_response import CaptainResponse
+from VictorOS.core.contracts.captain_response import CaptainResponse
 
 import requests
 
@@ -13,7 +13,7 @@ from .prompts import CAPTAIN_SYSTEM_PROMPT
 class CaptainAdapter(BrainAdapter):
     import json
 
-    from VictorOS.contracts.captain_response import CaptainResponse
+    from VictorOS.core.contracts.captain_response import CaptainResponse
 
     def handle(self, prompt: str):
 

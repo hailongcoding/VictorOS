@@ -11,13 +11,14 @@ import time
 from VictorOS.services.capabilities.registry import CapabilityRegistry
 from VictorOS.services.capabilities.provider import CapabilityProvider
 
-from VictorOS.services.intelligence.gateway import IntelligenceGateway
+from VictorOS.services.providers.gateway import ProviderGateway
 
 from VictorOS.services.brain.adapter import OllamaAdapter
 from VictorOS.services.brain.service import BrainService
 from VictorOS.services.brain.session import ChatSession
 
-from VictorOS.contracts.assistant_request import AssistantRequest
+from VictorOS.core.contracts.assistant_request import AssistantRequest
+from VictorOS.core.contracts.execution_request import ExecutionRequest
 from VictorOS.services.director.director import Director
 
 from VictorOS.services.command.processor import CommandProcessor
@@ -43,6 +44,14 @@ from VictorOS.services.runtime.events import RuntimeEvent
 from VictorOS.services.captain.adapter import CaptainAdapter
 from VictorOS.services.captain.service import CaptainService
 
+from VictorOS.core.planner.service import PlannerService
+from VictorOS.core.planner.adapter import PlannerAdapter
+
+from VictorOS.services.runtime.request_factory import ExecutionRequestFactory
+
+from VictorOS.services.reasoning.service import ReasoningService
+from VictorOS.services.reasoning.dummy_adapter import DummyReasoningAdapter
+
 class Kernel:
     """Central runtime of JarvisOS."""
 
@@ -62,12 +71,98 @@ class Kernel:
         # Services
         self.brain = None
 
+    def plan(self, prompt):
+
+        return self.planner.plan(prompt)
+            
+    
+    def execute(
+        self,
+        prompt: str,
+    ):
+
+        understanding = self.intent.understand(prompt)
+
+        print("\n========== UNDERSTANDING ==========")
+        print(understanding)
+
+        print("\n========== UNDERSTANDING 2 ==========")
+        print(f"Goal       : {understanding.goal}")
+        print(f"Confidence : {understanding.confidence}")
+
+        print("\nEntities:")
+        for entity in understanding.entities:
+            print(f"  • {entity}")
+
+        print("\nIntents:")
+        for intent in understanding.intents:
+            print(f"  Goal : {intent.goal}")
+            print(f"  Desc : {intent.description}")
+
+        reasoning = self.reasoning.reason(
+            understanding
+        )
+
+        print("\n========== REASONING ==========")
+
+        for decision in reasoning.decisions:
+            print(f"Capability : {decision.capability}")
+            print(f"Confidence : {decision.confidence}")
+            print(f"Reason     : {decision.reason}")
+            print()
+
+        requests = []
+
+        for decision in reasoning.decisions:
+
+            requests.append(
+                self.request_factory.create(
+                    decision
+                )
+            )
+
+        print("\n========== EXECUTION REQUESTS ==========")
+
+        for request in requests:
+            print(request)
+
+        results = []
+
+        for request in requests:
+
+            results.append(
+                self.runtime.run(request)
+            )
+
+        print("\n========== RESULTS ==========")
+
+        for result in results:
+            print(result)
+
+        return results
+
     def boot(self) -> None:
         print("=" * 40)
         print("        VictorOS v0.1")
         print("=" * 40)
-
         self.config.load()
+
+        self.capabilities = CapabilityRegistry()
+
+        self.request_factory = ExecutionRequestFactory()
+
+        from VictorOS.services.ai.client import AIClient
+
+        self.ai_client = AIClient()
+
+        planner_adapter = PlannerAdapter(
+            self.ai_client
+        )
+
+        self.planner = PlannerService(
+            planner_adapter,
+            self.capabilities,
+        )
 
         self.console_service = ConsoleService()
 
@@ -75,11 +170,10 @@ class Kernel:
             self.console_service
         )
 
-        self.capabilities = CapabilityRegistry()
-
-        self.gateway = IntelligenceGateway(
-            self.capabilities
+        self.gateway = ProviderGateway(
+            self.capabilities,
         )
+
 
 #        adapter = OllamaAdapter(
 #            model=config.get("brain.default_model"),
@@ -119,6 +213,13 @@ class Kernel:
             captain_adapter
         )
 
+        from VictorOS.services.intent.service import IntentService
+
+        self.intent = IntentService()
+
+        self.reasoning = ReasoningService(
+            DummyReasoningAdapter()
+        )
 
         for provider in self.plugins.all():
 
@@ -258,23 +359,28 @@ class Kernel:
             if prompt.lower() in ("exit", "quit"):
                 break
 
-   
+            # intent = self.intent.classify(prompt)
+
+            # print(f"[Intent] {intent}")
 
 
 
-            decision = self.captain.handle(prompt)
+            # decision = self.captain.handle(prompt)
 
-            print(f"Captain > {decision.reply}")
+            # print(f"Captain > {decision.reply}")
 
-            if not decision.use_brain:
-                print()
+            # if not decision.use_brain:
+            #     print()
                 
 
-            print("Thinking...")
+            # print("Thinking...")
 
-            response = self.processor.process(prompt)
-            if hasattr(response, "content"):
-                print(f"Brain > {response.content}")
+            # response = self.processor.process(prompt)
+            # if hasattr(response, "content"):
+            #     print(f"Brain > {response.content}")
+            results = self.execute(prompt)
+
+            print(results)
             print()
             
         self.listener.stop()

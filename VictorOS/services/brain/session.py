@@ -20,12 +20,12 @@ class ChatSession:
             }
         )
 
-        print("\n===== HISTORY =====")
+        # print("\n===== HISTORY =====")
 
-        for i, msg in enumerate(self.history):
-            print(f"{i}: {msg['role']}")
-            print(msg["content"])
-            print("-" * 40)
+        # for i, msg in enumerate(self.history):
+        #     print(f"{i}: {msg['role']}")
+        #     print(msg["content"])
+        #     print("-" * 40)
 
         response = self.brain.chat(self.history,model=model)
 

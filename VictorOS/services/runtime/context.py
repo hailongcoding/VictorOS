@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from VictorOS.contracts.execution_plan import ExecutionPlan
+from VictorOS.core.contracts.execution_plan import ExecutionPlan
 
 from .state import RuntimeState
 

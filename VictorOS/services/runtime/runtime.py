@@ -49,13 +49,13 @@ class Runtime:
             state=RuntimeState.IDLE
         )
 
-    def run(self, plan):
+    def run(self, request):
 
         self.context.state = RuntimeState.RUNNING
 
         task = Task(
-            name=plan.task.value,
-            payload=plan,
+            name=request.capability,
+            payload=request,
         )
 
         self.tasks.submit(task)
@@ -80,7 +80,7 @@ class Runtime:
         self.context.current_worker = "default"
 
         try:
-            return self._execute(plan, task)
+            return self._execute(request, task)
 
         except Exception as e:
 
@@ -109,23 +109,23 @@ class Runtime:
             self.context.current_plan = None
             self.context.current_worker = None
 
-    def submit(self, plan):
+    def submit(self, request):
         """
-        Execute a plan in the background.
+        Execute a request in the background.
 
         Returns the Task immediately.
         """
 
         task = Task(
-            name=plan.task.value,
-            payload=plan,
+            name=request.capability,
+            payload=request,
         )
 
         self.tasks.submit(task)
 
         worker = BackgroundWorker(
             self._run_background,
-            plan,
+            request,
             task,
         )
 
@@ -133,7 +133,7 @@ class Runtime:
 
         return task
 
-    def _run_background(self, plan, task):
+    def _run_background(self, request, task):
 
         self.tasks.start(task.id)
 
@@ -146,7 +146,7 @@ class Runtime:
         )
 
         self.context.state = RuntimeState.RUNNING
-        self.context.current_plan = plan
+        self.context.current_request = request
         self.context.current_worker = "default"
 
         self.bus.publish(
@@ -157,7 +157,7 @@ class Runtime:
         )
 
         try:
-            response = self._execute(plan, task)
+            response = self._execute(request, task)
 
         except Exception as e:
 
@@ -184,12 +184,12 @@ class Runtime:
         finally:
 
             self.context.state = RuntimeState.IDLE
-            self.context.current_plan = None
+            self.context.current_request = None
             self.context.current_worker = None
 
-    def _execute(self, plan, task):
+    def _execute(self, request, task):
 
-        worker = self.dispatcher.dispatch(plan)
+        worker = self.dispatcher.dispatch(request)
 
         self.tasks.set_progress(
             task.id,
@@ -197,7 +197,7 @@ class Runtime:
             "Starting worker",
         )
 
-        result = worker.execute(plan)
+        result = worker.execute(request)
 
         self.tasks.set_progress(
             task.id,
