@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VictorOS anniversaries</title>
+<style>
+    /* Orteil Nested Classic Styling */
+    body {
+        font-family: monospace;
+        font-size: 14px;
+        background-color: #e0e0e0;
+        color: #000;
+        padding: 20px;
+        margin: 0;
+        user-select: none;
+    }
+
+    /* The vertical white line connecting nested items */
+    .nested-container {
+        margin-left: 6px;
+        padding-left: 14px;
+        border-left: 2px solid #ffffff;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    /* The expandable folder rows */
+    .folder-row {
+        display: inline-block;
+        cursor: pointer;
+        padding: 0 4px 0 0;
+        line-height: 1.2;
+    }
+
+    /* Black highlight ON HOVER for expandable items only */
+    .folder-row:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    /* Keep the grey date readable when the row is hovered */
+    .folder-row:hover .date-grey {
+        color: #bbb; 
+    }
+
+    /* The little black box for + and - */
+    .sign {
+        background-color: #000;
+        color: #fff;
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        text-align: center;
+        line-height: 14px;
+        margin-right: 4px;
+        font-weight: bold;
+    }
+
+    /* Grey text for the date */
+    .date-grey {
+        color: #888;
+    }
+
+    /* Non-expandable row (no black hover effect here) */
+    .leaf-row {
+        padding: 0;
+        line-height: 1.2;
+        margin-top: 2px;
+    }
+
+    /* The hoverable time string */
+    .time-display {
+        cursor: pointer;
+        color: #000;
+    }
+    
+    .time-display:hover {
+        text-decoration: underline;
+    }
+
+    /* Container for preformatted text with a copy button */
+    .log-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 4px;
+    }
+
+    /* Session Log preformatted text */
+    .log-text {
+        margin: 0;
+        font-family: monospace;
+        white-space: pre-wrap; /* Allows text wrapping if screen is narrow */
+        color: #222;
+        background-color: #f4f4f4;
+        border: 1px solid #ccc;
+        padding: 10px;
+        padding-right: 65px; /* Make space for the copy button */
+        box-sizing: border-box;
+    }
+
+    /* Retro copy button style matching the aesthetic */
+    .copy-btn {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        font-family: monospace;
+        font-size: 11px;
+        padding: 4px 8px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .copy-btn:hover {
+        background-color: #333;
+    }
+
+</style>
+</head>
+<body>
+
+    <!-- Outer Folder -->
+    <div>
+        <div class="folder-row" onclick="toggleNode(this, 'content-anniversary')">
+            <span class="sign">+</span> VictorOS anniversaries
+        </div>
+        
+        <!-- Expanded Content for Anniversary -->
+        <div id="content-anniversary" class="nested-container" style="display: none;">
+            
+            <!-- ITEM 1: Realized Project -->
+            <div>
+                <div class="folder-row" onclick="toggleNode(this, 'content-realized')">
+                    <span class="sign">+</span> realized project creation date <span class="date-grey">(11Jul2026)</span>
+                </div>
+                
+                <div id="content-realized" class="nested-container" style="display: none;">
+                    <div class="leaf-row">
+                        <span id="time-display-realized" class="time-display"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEM 2: First Prototype Pipeline -->
+            <div>
+                <div class="folder-row" onclick="toggleNode(this, 'content-prototype')">
+                    <span class="sign">+</span> first prototype pipeline that works (conversation) <span class="date-grey">(3Aug2026)</span>
+                </div>
+                
+                <div id="content-prototype" class="nested-container" style="display: none;">
+                    <!-- Prototype Time -->
+                    <div class="leaf-row">
+                        <span id="time-display-prototype" class="time-display"></span>
+                    </div>
+                    
+                    <!-- Session Log Folder -->
+                    <div>
+                        <div class="folder-row" onclick="toggleNode(this, 'content-sessionlog')">
+                            <span class="sign">+</span> session log
+                        </div>
+
+                        <!-- Session Log Text Block with Copy Button -->
+                        <div id="content-sessionlog" class="nested-container" style="display: none;">
+                            <div class="log-wrapper">
+                                <button class="copy-btn" onclick="copyLogContent(this)">Copy</button>
+<pre class="leaf-row log-text">(.venv) PS C:\Users\Admin\VictorOS> python -m VictorOS.launcher
+========================================
+        VictorOS v0.1
+========================================
+[EVENT] Kernel Boot Complete
+
+[START] Brain Service
+[START] Captain Service
+[START] Console Service
+
+
+Service Status
+------------------------------
+Brain          Running
+Captain        Running
+Console        Running
+
+Theme : midnight
+
+Type 'exit' to quit.
+
+You > hello my name is Quoc Anh and im not good at english
+
+========== UNDERSTANDING ==========
+Understanding(original='hello my name is Quoc Anh and im not good at english', goal='The user is greeting VictorOS and expresses their name and a language proficiency issue with English', confidence=0.95, intents=[Intent(goal='Begin a conversation about language proficiency with English', description='The user is greeting VictorOS and expressing their name and a language proficiency issue with English. They are trying to communicate about their proficiency in English but are not skilled at it.', entities=['Quoc Anh', 'English'])], entities=['Quoc Anh', 'English'], metadata={})
+
+========== UNDERSTANDING 2 ==========
+Goal       : The user is greeting VictorOS and expresses their name and a language proficiency issue with English
+Confidence : 0.95
+
+Entities:
+  • Quoc Anh
+  • English
+
+Intents:
+  Goal : Begin a conversation about language proficiency with English
+  Desc : The user is greeting VictorOS and expressing their name and a language proficiency issue with English. They are trying to communicate about their proficiency in English but are not skilled at it.
+
+========== REASONING ==========
+Capability : conversation
+Confidence : 1.0
+Reason     : Dummy reasoning adapter.
+
+
+========== EXECUTION REQUESTS ==========
+ExecutionRequest(capability='conversation', payload={'goal': 'The user is greeting VictorOS and expresses their name and a language proficiency issue with English', 'reason': 'Dummy reasoning adapter.'}, background=False, metadata={'confidence': 1.0})
+[Runtime] Started: conversation
+[Session] model = None
+[Brain] 37.00s
+[Runtime] Completed: conversation
+
+========== RESULTS ==========
+ExecutionResult(success=True, summary="Hello! I am **OpenJarvis**, running locally on your hardware. How can I assist you today? If there are any specific tasks or questions you'd like to ask, feel free to let me know! Also, if you're having trouble expressing yourself in English, no worries—I'll do my best to help clarify things for you.", files_created=[], files_modified=[], artifacts=[], actions=[], warnings=[], suggestions=[], metadata={})
+/-heart
+18
+/-strong
+/-heart
+:>
+:o
+:-((
+:-h
+[ExecutionResult(success=True, summary="Hello! I am **OpenJarvis**, running locally on your hardware. How can I assist you today? If there are any specific tasks or questions you'd like to ask, feel free to let me know! Also, if you're having trouble expressing yourself in English, no worries—I'll do my best to help clarify things for you.", files_created=[], files_modified=[], artifacts=[], actions=[], warnings=[], suggestions=[], metadata={})]
+
+You > exit
+
+[EVENT] Shutting down...
+[STOP] Brain Service
+[STOP] Captain Service
+[STOP] Console Service
+Goodbye!</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEM 3: Second Prototype Pipeline -->
+            <div>
+                <div class="folder-row" onclick="toggleNode(this, 'content-prototype2')">
+                    <span class="sign">+</span> second prototype pipeline that quite works (no capapbilities) <span class="date-grey">(17Aug2026)</span>
+                </div>
+                
+                <div id="content-prototype2" class="nested-container" style="display: none;">
+                    <!-- Prototype 2 Time -->
+                    <div class="leaf-row">
+                        <span id="time-display-prototype2" class="time-display"></span>
+                    </div>
+                    
+                    <!-- Session Log Folder -->
+                    <div>
+                        <div class="folder-row" onclick="toggleNode(this, 'content-sessionlog2')">
+                            <span class="sign">+</span> session log
+                        </div>
+
+                        <!-- Session Log Text Block with Copy Button -->
+                        <div id="content-sessionlog2" class="nested-container" style="display: none;">
+                            <div class="log-wrapper">
+                                <button class="copy-btn" onclick="copyLogContent(this)">Copy</button>
+<pre class="leaf-row log-text">PS C:\Users\Admin\VictorOS> python -m VictorOS.launcher
+========================================
+        VictorOS v0.1
+========================================
+[DEBUG][BOOT] INIT_COMPLETE debug_enabled=True
+[EVENT] Kernel Boot Complete
+[START] Brain Service
+[START] Captain Service
+[START] Console Service
+
+Service Status
+------------------------------
+Brain        Running
+Captain        Running
+Console        Running
+
+Theme : midnight
+
+Type 'exit' to quit.
+
+You > hey vic
+[DEBUG][INPUT] RECEIVED prompt='hey vic'
+[DEBUG][PIPELINE] START stage_count=8
+[DEBUG][PIPELINE] STAGE_BEGIN name='UnderstandingStage' index=0 retries=0
+[DEBUG][UNDERSTANDING] START prompt='hey vic' model='qwen3.5:4b' provider='ollama'
+[DEBUG][UNDERSTANDING] LLM_CALL_START model='qwen3.5:4b' attempt='first' prompt_len=7
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=11373 user_len=7
+[DEBUG][LLM] CHAT_END elapsed='55.456s' raw_len=670 response_preview='{\n    "original": "hey vic",\n    "goal": "The user is greeting VictorOS and initiating a conversation.",\n    "confidence": 0.99,\n    "entities": ["VictorOS"],\n    "metadata": {},\n    "quantities": {},\n    "ordering": [],\n    "dependencies": [],\n    "temporal": {},\n    "references": {},\n ...
+[DEBUG][LLM] NORMALIZED normalized_len=670
+[DEBUG][UNDERSTANDING] LLM_CALL_END elapsed='55.457s' response_len=670 response_preview='{\n    "original": "hey vic",\n    "goal": "The user is greeting VictorOS and initiating a conversation.",\n    "confidence": 0.99,\n    "entities": ["VictorOS"],\n    "metadata": {},\n    "quantities": {},\n    "ordering": [],\n    "dependencies": [],\n    "temporal": {},\n    "references": {},\n ...
+[DEBUG][UNDERSTANDING] PARSE_VALIDATED parse_elapsed='0.000s' issues_count=0 issues=[] goal='The user is greeting VictorOS and initiating a conversation.' confidence=0.99 intents_count=1
+[DEBUG][UNDERSTANDING] RESULT elapsed='55.457s' goal='The user is greeting VictorOS and initiating a conversation.' confidence=0.99 intents_count=1 intents=['Greet VictorOS.'] ambiguities=[] entities=['VictorOS'] halt=False
+[DEBUG][PIPELINE] STAGE_END name='UnderstandingStage' elapsed_ms='55457.5' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='MemoryStage' index=1 retries=0
+[DEBUG][PIPELINE] STAGE_END name='MemoryStage' elapsed_ms='0.0' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='PlanningStage' index=2 retries=0
+[DEBUG][PLANNER] START prompt='hey vic' has_understanding=True model='qwen3.5:4b'
+[DEBUG][PLANNER] LLM_CALL_START model='qwen3.5:4b' capabilities=['coding', 'computer.interaction', 'conversation'] has_understanding=True
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=4411 user_len=635
+[DEBUG][LLM] CHAT_END elapsed='26.153s' raw_len=84 response_preview='GOAL:\nHave a conversation with the user.\n\nCAPABILITIES:\nconversation\n\nINTENT:\n0\n\nEND'
+[DEBUG][LLM] NORMALIZED normalized_len=84
+[DEBUG][PLANNER] LLM_CALL_END elapsed='26.153s' response_len=84 response_preview='GOAL:\nHave a conversation with the user.\n\nCAPABILITIES:\nconversation\n\nINTENT:\n0\n\nEND'
+[DEBUG][PLANNER] LLM_DONE elapsed='26.154s' raw_len=84 raw_preview='GOAL:\nHave a conversation with the user.\n\nCAPABILITIES:\nconversation\n\nINTENT:\n0\n\nEND'
+[DEBUG][PLANNER] PARSE_DONE elapsed='0.000s' raw_plan_goals=['Have a conversation with the user.']
+[DEBUG][PLANNER] VALIDATE_DONE elapsed='0.001s' plan_goals=['Have a conversation with the user.'] tasks_count=1
+[DEBUG][PLANNER] RESULT elapsed='26.155s' tasks_count=1 goal='The user is greeting VictorOS and initiating a conversation.' tasks=[{'id': 'task-1', 'goal': 'Have a conversation with the user.', 'capabilities': ['conversation']}]
+[DEBUG][PIPELINE] STAGE_END name='PlanningStage' elapsed_ms='26155.2' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='ReasoningStage' index=3 retries=0
+[DEBUG][REASONING] START model='qwen3.5:4b' snapshot_capabilities=['conversation', 'coding', 'computer.interaction'] has_understanding=True has_plan=True plan_tasks=[Task(id='task-1', goal='Have a conversation with the user.', capabilities=['conversation'], decision=None, status=<TaskStatus.PENDING: 'pending'>, result=None, metadata={'planner_capabilities': ['conversation'], 'rejected_capabilities': [], 'explicit_capability': None, 'intent_goal': 'Greet VictorO...
+[DEBUG][REASONING] LLM_CALL_START model='qwen3.5:4b' prompt_len=1757
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=3045 user_len=1757
+[DEBUG][LLM] CHAT_END elapsed='56.393s' raw_len=591 response_preview='{\n    "decisions": [\n        {\n            "task_id": "task-1",\n            "goal": "Have a conversation with the user.",\n            "capability": "conversation",\n            "confidence": 0.98,\n            "reason": "The task explicitly requests the \'conversation\' capability to handle na...
+[DEBUG][LLM] NORMALIZED normalized_len=591
+[DEBUG][REASONING] LLM_CALL_END elapsed='56.394s' response_len=591 response_preview='{\n    "decisions": [\n        {\n            "task_id": "task-1",\n            "goal": "Have a conversation with the user.",\n            "capability": "conversation",\n            "confidence": 0.98,\n            "reason": "The task explicitly requests the \'conversation\' capability to handle na...
+[DEBUG][REASONING] PARSE_DONE elapsed='0.000s' decisions_count=1 raw_decisions=[{'task_id': 'task-1', 'capability': 'conversation', 'goal': 'Have a conversation with the user.'}]
+[DEBUG][REASONING] VALIDATE_DONE elapsed='0.003s' final_decisions_count=1 final_decisions=[{'task_id': 'task-1', 'capability': 'conversation'}]
+[DEBUG][REASONING] LLM_DONE elapsed='56.399s' decisions_count=1 decisions=[{'task_id': 'task-1', 'goal': 'Have a conversation with the user.', 'capability': 'conversation', 'confidence': 0.98}]
+[DEBUG][REASONING] DECISION_MATERIALIZED task_id='task-1' decision_capability='conversation' decision_goal='Have a conversation with the user.'
+[DEBUG][REASONING] END elapsed='56.400s' total_tasks=1 tasks_with_decision=1 tasks_without_decision=0 unmatched_decisions=0
+[DEBUG][PIPELINE] STAGE_END name='ReasoningStage' elapsed_ms='56400.0' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='GraphBuilderStage' index=4 retries=0
+[DEBUG][GRAPH] BUILT elapsed='0.000s' node_count=1 start_nodes=['task-1'] nodes=['task-1']
+[DEBUG][PIPELINE] STAGE_END name='GraphBuilderStage' elapsed_ms='0.4' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='ExecutionStage' index=5 retries=0
+[DEBUG][EXECUTION] START has_reasoning=True decisions_count=1 has_graph=True
+[DEBUG][EXECUTION] REQUEST_CREATED task_id='task-1' capability='conversation' goal='Have a conversation with the user.'
+[DEBUG][EXECUTION] NODE_ATTACHED node_id='task-1' task_id='task-1'
+[DEBUG][EXECUTION] DISPATCH request_count=1 graph_ready=True execution_path='run_graph'
+[DEBUG][RUNTIME] GRAPH_START node_count=1 start_nodes=['task-1']
+[DEBUG][RUNTIME] NODE_RUN node_id='task-1' capability='conversation' goal='Have a conversation with the user.'
+[DEBUG][RUNTIME] REQUEST_START capability='conversation' task_id='task-1' goal='Have a conversation with the user.'
+Captain > Consider it done.
+[DEBUG][RUNTIME] WORKER_DISPATCH worker_type='DefaultWorker' capability='conversation'
+[DEBUG][CAPABILITY] RESOLVE_START capability='conversation'
+[DEBUG][CAPABILITY] RESOLVED capability='conversation' provider_name='conversation' provider_type='ConversationCapabilityProvider'
+[Router] Task = BrainTask.CONVERSATION
+[Router] Task = BrainTask.CONVERSATION
+[DEBUG][BRAIN] CHAT_START model='qwen3.5:4b' task='conversation' message_count=1 last_message_preview='hey vic'
+[DEBUG][BRAIN] CHAT_END elapsed='11.147s' response_len=137 response_preview="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"
+[DEBUG][CAPABILITY] EXECUTED elapsed='11.215s' capability='conversation' result_type='ExecutionResult' success=True summary_preview="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"
+[DEBUG][RUNTIME] WORKER_DONE elapsed='11.216s' result_type='ExecutionResult' success=True
+Captain > Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?
+[DEBUG][RUNTIME] REQUEST_DONE elapsed='11.216s' success=True summary_preview="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"
+[DEBUG][RUNTIME] NODE_DONE node_id='task-1' success=True summary_preview="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"
+[DEBUG][RUNTIME] GRAPH_END elapsed='11.217s' results_count=1
+[DEBUG][EXECUTION] DONE elapsed='11.218s' results_count=1 results=[{'success': True, 'capability': 'conversation', 'summary_preview': "Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"}]
+[DEBUG][PIPELINE] STAGE_END name='ExecutionStage' elapsed_ms='11217.7' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='VerificationStage' index=6 retries=0
+[DEBUG][VERIFICATION] START result_count=1 last_result_success=True last_result_capability='conversation' last_result_summary="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"
+[DEBUG][VERIFIER] EXECUTION_SUCCESS_CHECK capability='conversation' task_id='task-1' success=True summary="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?" evidence_count=1 evidence_preview=["summary:Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"]
+[DEBUG][VERIFIER] GOAL_SATISFACTION_ASSESSMENT capability='conversation' task_id='task-1' expected_count=0 evidence_count=1 has_summary=True
+[DEBUG][VERIFIER] EXECUTION_SUCCESS_NO_EXPECTATIONS capability='conversation' task_id='task-1' has_summary=True evidence_count=1
+[DEBUG][VERIFICATION] VERIFY_RESULT status='success' execution_success=True goal='Have a conversation with the user.' evidence=["summary:Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"] unsatisfied=[] evaluated=['execution success', 'goal satisfaction']
+[DEBUG][SUPERVISOR] DECIDE verification_status='success' retries=0 max_retries=1 action='complete'
+[DEBUG][SUPERVISOR] DECISION action='complete' status='success' reason='Verification success: goal satisfied; no further work needed.' retries_used=0
+[DEBUG][VERIFICATION] SUPERVISOR_DECISION action='complete' status='success' reason='Verification success: goal satisfied; no further work needed.' retries=0 metadata={'retries_used': 0, 'max_retries': 1, 'evidence': ["summary:Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"], 'unsatisfied': []}
+[DEBUG][VERIFICATION] END elapsed='0.001s'
+[DEBUG][PIPELINE] STAGE_END name='VerificationStage' elapsed_ms='0.8' success=True
+[DEBUG][PIPELINE] SUPERVISOR_ROUTING action='complete' retries=0 verification_status='success'
+[DEBUG][PIPELINE] STAGE_BEGIN name='RespondStage' index=7 retries=0
+[DEBUG][RESPONSE] START result_count=1 result_success=True result_summary="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?"
+[DEBUG][RESPONSE] END elapsed='0.000s' response_preview="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?" response_source='result.summary'
+[DEBUG][PIPELINE] STAGE_END name='RespondStage' elapsed_ms='0.1' success=True
+[DEBUG][PIPELINE] END stages_run=['UnderstandingStage', 'MemoryStage', 'PlanningStage', 'ReasoningStage', 'GraphBuilderStage', 'ExecutionStage', 'VerificationStage', 'RespondStage'] total_errors=0
+[DEBUG][INPUT] COMPLETE total_elapsed='149.248s' has_response=True response_preview="Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?" halted=False errors=0 retries=0 trace_stages=['UnderstandingStage', 'MemoryStage', 'PlanningStage', 'ReasoningStage', 'GraphBuilderStage', 'ExecutionStage', 'VerificationStage', 'RespondStage'] timings={}
+Hey there! Though my name isn't Vic (I'm Qwen3.5), I'd be happy to chat with you or help out with whatever you need. What's on your mind?
+You > what is the capital of russia
+[DEBUG][INPUT] RECEIVED prompt='what is the capital of russia'
+[DEBUG][PIPELINE] START stage_count=8
+[DEBUG][PIPELINE] STAGE_BEGIN name='UnderstandingStage' index=0 retries=0
+[DEBUG][UNDERSTANDING] START prompt='what is the capital of russia' model='qwen3.5:4b' provider='ollama'
+[DEBUG][UNDERSTANDING] LLM_CALL_START model='qwen3.5:4b' attempt='first' prompt_len=29
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=11373 user_len=232
+[DEBUG][LLM] CHAT_END elapsed='81.220s' raw_len=1176 response_preview='{\n    "original": "what is the capital of russia",\n    "goal": "The user wants to know the capital city of Russia.",\n    "confidence": 0.99,\n    "entities": ["Russia", "capital"],\n    "metadata": {\n        "conversation_context": "User attempted to greet assistant with \'hey vic\', and assist...
+[DEBUG][LLM] NORMALIZED normalized_len=1176
+[DEBUG][UNDERSTANDING] LLM_CALL_END elapsed='81.220s' response_len=1176 response_preview='{\n    "original": "what is the capital of russia",\n    "goal": "The user wants to know the capital city of Russia.",\n    "confidence": 0.99,\n    "entities": ["Russia", "capital"],\n    "metadata": {\n        "conversation_context": "User attempted to greet assistant with \'hey vic\', and assist...
+[DEBUG][UNDERSTANDING] PARSE_VALIDATED parse_elapsed='0.000s' issues_count=0 issues=[] goal='The user wants to know the capital city of Russia.' confidence=0.99 intents_count=1
+[DEBUG][UNDERSTANDING] RESULT elapsed='81.221s' goal='The user wants to know the capital city of Russia.' confidence=0.99 intents_count=1 intents=['Find the capital city of Russia.'] ambiguities=[] entities=['Russia', 'capital'] halt=False
+[DEBUG][PIPELINE] STAGE_END name='UnderstandingStage' elapsed_ms='81221.2' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='MemoryStage' index=1 retries=0
+[DEBUG][PIPELINE] STAGE_END name='MemoryStage' elapsed_ms='0.0' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='PlanningStage' index=2 retries=0
+[DEBUG][PLANNER] START prompt='what is the capital of russia' has_understanding=True model='qwen3.5:4b'
+[DEBUG][PLANNER] LLM_CALL_START model='qwen3.5:4b' capabilities=['coding', 'computer.interaction', 'conversation'] has_understanding=True
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=4411 user_len=855
+[DEBUG][LLM] CHAT_END elapsed='26.924s' raw_len=78 response_preview='GOAL:\nFind the capital city of Russia.\n\nCAPABILITIES:\nresearch\n\nINTENT:\n0\n\nEND'
+[DEBUG][LLM] NORMALIZED normalized_len=78
+[DEBUG][PLANNER] LLM_CALL_END elapsed='26.924s' response_len=78 response_preview='GOAL:\nFind the capital city of Russia.\n\nCAPABILITIES:\nresearch\n\nINTENT:\n0\n\nEND'
+[DEBUG][PLANNER] LLM_DONE elapsed='26.925s' raw_len=78 raw_preview='GOAL:\nFind the capital city of Russia.\n\nCAPABILITIES:\nresearch\n\nINTENT:\n0\n\nEND'
+[DEBUG][PLANNER] PARSE_DONE elapsed='0.000s' raw_plan_goals=['Find the capital city of Russia.']
+[DEBUG][PLANNER] VALIDATE_DONE elapsed='0.000s' plan_goals=['Find the capital city of Russia.'] tasks_count=1
+[DEBUG][PLANNER] RESULT elapsed='26.925s' tasks_count=1 goal='The user wants to know the capital city of Russia.' tasks=[{'id': 'task-1', 'goal': 'Find the capital city of Russia.', 'capabilities': []}]
+[DEBUG][PIPELINE] STAGE_END name='PlanningStage' elapsed_ms='26925.1' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='ReasoningStage' index=3 retries=0
+[DEBUG][REASONING] START model='qwen3.5:4b' snapshot_capabilities=['conversation', 'coding', 'computer.interaction'] has_understanding=True has_plan=True plan_tasks=[Task(id='task-1', goal='Find the capital city of Russia.', capabilities=[], decision=None, status=<TaskStatus.PENDING: 'pending'>, result=None, metadata={'planner_capabilities': ['research'], 'rejected_capabilities': [], 'explicit_capability': None, 'standard_capabilities': ['research'], 'intent_go...
+[DEBUG][REASONING] LLM_CALL_START model='qwen3.5:4b' prompt_len=1977
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=3045 user_len=1977
+[DEBUG][LLM] CHAT_END elapsed='63.539s' raw_len=718 response_preview='```json\n{\n  "decisions": [\n    {\n      "task_id": "task-1",\n      "goal": "Find the capital city of Russia.",\n      "capability": "conversation",\n      "confidence": 0.95,\n      "reason": "The user\'s request is a direct factual question asking for the capital of Russia. While \'research\' ...
+[DEBUG][LLM] NORMALIZED normalized_len=706
+[DEBUG][REASONING] LLM_CALL_END elapsed='63.539s' response_len=706 response_preview='{\n  "decisions": [\n    {\n      "task_id": "task-1",\n      "goal": "Find the capital city of Russia.",\n      "capability": "conversation",\n      "confidence": 0.95,\n      "reason": "The user\'s request is a direct factual question asking for the capital of Russia. While \'research\' was reque...
+[DEBUG][REASONING] PARSE_DONE elapsed='0.000s' decisions_count=1 raw_decisions=[{'task_id': 'task-1', 'capability': 'conversation', 'goal': 'Find the capital city of Russia.'}]
+[DEBUG][REASONING] VALIDATE_DONE elapsed='0.000s' final_decisions_count=1 final_decisions=[{'task_id': 'task-1', 'capability': 'conversation'}]
+[DEBUG][REASONING] LLM_DONE elapsed='63.540s' decisions_count=1 decisions=[{'task_id': 'task-1', 'goal': 'Find the capital city of Russia.', 'capability': 'conversation', 'confidence': 0.95}]
+[DEBUG][REASONING] DECISION_MATERIALIZED task_id='task-1' decision_capability='conversation' decision_goal='Find the capital city of Russia.'
+[DEBUG][REASONING] END elapsed='63.540s' total_tasks=1 tasks_with_decision=1 tasks_without_decision=0 unmatched_decisions=0
+[DEBUG][PIPELINE] STAGE_END name='ReasoningStage' elapsed_ms='63540.1' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='GraphBuilderStage' index=4 retries=0
+[DEBUG][GRAPH] BUILT elapsed='0.000s' node_count=1 start_nodes=['task-1'] nodes=['task-1']
+[DEBUG][PIPELINE] STAGE_END name='GraphBuilderStage' elapsed_ms='0.1' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='ExecutionStage' index=5 retries=0
+[DEBUG][EXECUTION] START has_reasoning=True decisions_count=1 has_graph=True
+[DEBUG][EXECUTION] REQUEST_CREATED task_id='task-1' capability='conversation' goal='Find the capital city of Russia.'
+[DEBUG][EXECUTION] NODE_ATTACHED node_id='task-1' task_id='task-1'
+[DEBUG][EXECUTION] DISPATCH request_count=1 graph_ready=True execution_path='run_graph'
+[DEBUG][RUNTIME] GRAPH_START node_count=1 start_nodes=['task-1']
+[DEBUG][RUNTIME] NODE_RUN node_id='task-1' capability='conversation' goal='Find the capital city of Russia.'
+[DEBUG][RUNTIME] REQUEST_START capability='conversation' task_id='task-1' goal='Find the capital city of Russia.'
+Captain > I'm on it.
+[DEBUG][RUNTIME] WORKER_DISPATCH worker_type='DefaultWorker' capability='conversation'
+[DEBUG][CAPABILITY] RESOLVE_START capability='conversation'
+[DEBUG][CAPABILITY] RESOLVED capability='conversation' provider_name='conversation' provider_type='ConversationCapabilityProvider'
+[Router] Task = BrainTask.CONVERSATION
+[Router] Task = BrainTask.CONVERSATION
+[DEBUG][BRAIN] CHAT_START model='qwen3.5:4b' task='conversation' message_count=3 last_message_preview='what is the capital of russia'
+[DEBUG][BRAIN] CHAT_END elapsed='9.359s' response_len=109 response_preview="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."
+[DEBUG][CAPABILITY] EXECUTED elapsed='9.359s' capability='conversation' result_type='ExecutionResult' success=True summary_preview="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."
+[DEBUG][RUNTIME] WORKER_DONE elapsed='9.359s' result_type='ExecutionResult' success=True
+Captain > The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub.
+[DEBUG][RUNTIME] REQUEST_DONE elapsed='9.360s' success=True summary_preview="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."
+[DEBUG][RUNTIME] NODE_DONE node_id='task-1' success=True summary_preview="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."
+[DEBUG][RUNTIME] GRAPH_END elapsed='9.360s' results_count=1
+[DEBUG][EXECUTION] DONE elapsed='9.361s' results_count=1 results=[{'success': True, 'capability': 'conversation', 'summary_preview': "The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."}]
+[DEBUG][PIPELINE] STAGE_END name='ExecutionStage' elapsed_ms='9361.0' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='VerificationStage' index=6 retries=0
+[DEBUG][VERIFICATION] START result_count=1 last_result_success=True last_result_capability='conversation' last_result_summary="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."
+[DEBUG][VERIFIER] EXECUTION_SUCCESS_CHECK capability='conversation' task_id='task-1' success=True summary="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub." evidence_count=1 evidence_preview=["summary:The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."]
+[DEBUG][VERIFIER] GOAL_SATISFACTION_ASSESSMENT capability='conversation' task_id='task-1' expected_count=0 evidence_count=1 has_summary=True
+[DEBUG][VERIFIER] EXECUTION_SUCCESS_NO_EXPECTATIONS capability='conversation' task_id='task-1' has_summary=True evidence_count=1
+[DEBUG][VERIFICATION] VERIFY_RESULT status='success' execution_success=True goal='Find the capital city of Russia.' evidence=["summary:The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."] unsatisfied=[] evaluated=['execution success', 'goal satisfaction']
+[DEBUG][SUPERVISOR] DECIDE verification_status='success' retries=0 max_retries=1 action='complete'
+[DEBUG][SUPERVISOR] DECISION action='complete' status='success' reason='Verification success: goal satisfied; no further work needed.' retries_used=0
+[DEBUG][VERIFICATION] SUPERVISOR_DECISION action='complete' status='success' reason='Verification success: goal satisfied; no further work needed.' retries=0 metadata={'retries_used': 0, 'max_retries': 1, 'evidence': ["summary:The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."], 'unsatisfied': []}
+[DEBUG][VERIFICATION] END elapsed='0.001s'
+[DEBUG][PIPELINE] STAGE_END name='VerificationStage' elapsed_ms='0.8' success=True
+[DEBUG][PIPELINE] SUPERVISOR_ROUTING action='complete' retries=0 verification_status='success'
+[DEBUG][PIPELINE] STAGE_BEGIN name='RespondStage' index=7 retries=0
+[DEBUG][RESPONSE] START result_count=1 result_success=True result_summary="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub."
+[DEBUG][RESPONSE] END elapsed='0.000s' response_preview="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub." response_source='result.summary'
+[DEBUG][PIPELINE] STAGE_END name='RespondStage' elapsed_ms='0.1' success=True
+[DEBUG][PIPELINE] END stages_run=['UnderstandingStage', 'MemoryStage', 'PlanningStage', 'ReasoningStage', 'GraphBuilderStage', 'ExecutionStage', 'VerificationStage', 'RespondStage'] total_errors=0
+[DEBUG][INPUT] COMPLETE total_elapsed='181.050s' has_response=True response_preview="The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub." halted=False errors=0 retries=0 trace_stages=['UnderstandingStage', 'MemoryStage', 'PlanningStage', 'ReasoningStage', 'GraphBuilderStage', 'ExecutionStage', 'VerificationStage', 'RespondStage'] timings={}
+The capital of Russia is **Moscow**. It serves as the nation's primary political, economic, and cultural hub.
+You > create me a file name test.txt contains "passed""
+[DEBUG][INPUT] RECEIVED prompt='create me a file name test.txt contains "passed""'
+[DEBUG][PIPELINE] START stage_count=8
+[DEBUG][PIPELINE] STAGE_BEGIN name='UnderstandingStage' index=0 retries=0
+[DEBUG][UNDERSTANDING] START prompt='create me a file name test.txt contains "passed""' model='qwen3.5:4b' provider='ollama'
+[DEBUG][UNDERSTANDING] LLM_CALL_START model='qwen3.5:4b' attempt='first' prompt_len=49
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=11373 user_len=409
+[DEBUG][LLM] CHAT_END elapsed='103.428s' raw_len=1383 response_preview='{\n    "original":"create me a file name test.txt contains \\"passed\\"",\n\n    "goal":"The user wants to create a new text file with a specific name and content.",\n\n    "confidence": 0.95,\n\n    "entities": [\n        "test.txt",\n        "passed"\n    ],\n\n    "metadata": {\n        "convers...
+[DEBUG][LLM] NORMALIZED normalized_len=1383
+[DEBUG][UNDERSTANDING] LLM_CALL_END elapsed='103.428s' response_len=1383 response_preview='{\n    "original":"create me a file name test.txt contains \\"passed\\"",\n\n    "goal":"The user wants to create a new text file with a specific name and content.",\n\n    "confidence": 0.95,\n\n    "entities": [\n        "test.txt",\n        "passed"\n    ],\n\n    "metadata": {\n        "convers...
+[DEBUG][UNDERSTANDING] PARSE_VALIDATED parse_elapsed='0.000s' issues_count=1 issues=['Original must exactly match the current user message.'] goal='The user wants to create a new text file with a specific name and content.' confidence=0.95 intents_count=2
+[DEBUG][UNDERSTANDING] REPAIR_ATTEMPT issues=['Original must exactly match the current user message.']
+[DEBUG][UNDERSTANDING] LLM_CALL_START model='qwen3.5:4b' attempt='repair' prompt_len=1930
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=1234 user_len=1930
+[DEBUG][LLM] CHAT_END elapsed='147.083s' raw_len=1193 response_preview='{\n  "original":"create me a file name test.txt contains \\"passed\\"",\n  "goal":"The user wants to create a new text file named test.txt and write the content \'passed\' into it.",\n  "confidence": 0.95,\n  "entities": [\n    "test.txt",\n    "passed"\n  ],\n  "metadata": {\n    "conversation_con...
+[DEBUG][LLM] NORMALIZED normalized_len=1193
+[DEBUG][UNDERSTANDING] LLM_CALL_END elapsed='147.083s' response_len=1193 response_preview='{\n  "original":"create me a file name test.txt contains \\"passed\\"",\n  "goal":"The user wants to create a new text file named test.txt and write the content \'passed\' into it.",\n  "confidence": 0.95,\n  "entities": [\n    "test.txt",\n    "passed"\n  ],\n  "metadata": {\n    "conversation_con...
+[DEBUG][UNDERSTANDING] REPAIR_PARSE_VALIDATED issues_count=1 issues=['Original must exactly match the current user message.']
+[DEBUG][UNDERSTANDING] GAVE_UP total_issues=['Original must exactly match the current user message.']
+[DEBUG][UNDERSTANDING] FAILURE elapsed='250.513s' errors=['Original must exactly match the current user message.'] clarification="I couldn't reliably understand that message. Please try again." halted=True
+[DEBUG][PIPELINE] STAGE_END name='UnderstandingStage' elapsed_ms='250512.7' success=True
+[DEBUG][PIPELINE] HALTED name='UnderstandingStage' has_response=True
+[DEBUG][PIPELINE] END stages_run=['UnderstandingStage'] total_errors=0
+[DEBUG][INPUT] COMPLETE total_elapsed='250.513s' has_response=True response_preview="I couldn't reliably understand that message. Please try again." halted=True errors=0 retries=0 trace_stages=['UnderstandingStage'] timings={}
+I couldn't reliably understand that message. Please try again.
+You > create a folder named foldy and put file 1.tt and 2.txt and like that
+[DEBUG][INPUT] RECEIVED prompt='create a folder named foldy and put file 1.tt and 2.txt and like that'
+[DEBUG][PIPELINE] START stage_count=8
+[DEBUG][PIPELINE] STAGE_BEGIN name='UnderstandingStage' index=0 retries=0
+[DEBUG][UNDERSTANDING] START prompt='create a folder named foldy and put file 1.tt and 2.txt and like that' model='qwen3.5:4b' provider='ollama'
+[DEBUG][UNDERSTANDING] LLM_CALL_START model='qwen3.5:4b' attempt='first' prompt_len=69
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=11373 user_len=429
+[DEBUG][LLM] CHAT_END elapsed='147.231s' raw_len=2093 response_preview='{\n    "original": "create a folder named foldy and put file 1.tt and 2.txt and like that",\n\n    "goal": "The user wants to create a directory structure containing specific files.",\n\n    "confidence": 0.85,\n\n    "entities": [\n        "foldy",\n        "1.tt",\n        "2.txt"\n    ],\n\n    ...
+[DEBUG][LLM] NORMALIZED normalized_len=2093
+[DEBUG][UNDERSTANDING] LLM_CALL_END elapsed='147.231s' response_len=2093 response_preview='{\n    "original": "create a folder named foldy and put file 1.tt and 2.txt and like that",\n\n    "goal": "The user wants to create a directory structure containing specific files.",\n\n    "confidence": 0.85,\n\n    "entities": [\n        "foldy",\n        "1.tt",\n        "2.txt"\n    ],\n\n    ...
+[DEBUG][UNDERSTANDING] PARSE_VALIDATED parse_elapsed='0.000s' issues_count=0 issues=[] goal='The user wants to create a directory structure containing specific files.' confidence=0.85 intents_count=3
+[DEBUG][UNDERSTANDING] RESULT elapsed='147.232s' goal='The user wants to create a directory structure containing specific files.' confidence=0.85 intents_count=3 intents=['Create a folder named foldy.', 'Create file 1.tt inside the folder.', 'Create file 2.txt inside the folder.'] ambiguities=['like that'] entities=['foldy', '1.tt', '2.txt'] halt=False
+[DEBUG][PIPELINE] STAGE_END name='UnderstandingStage' elapsed_ms='147232.1' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='MemoryStage' index=1 retries=0
+[DEBUG][PIPELINE] STAGE_END name='MemoryStage' elapsed_ms='0.0' success=True
+[DEBUG][PIPELINE] STAGE_BEGIN name='PlanningStage' index=2 retries=0
+[DEBUG][PLANNER] START prompt='create a folder named foldy and put file 1.tt and 2.txt and like that' has_understanding=True model='qwen3.5:4b'
+[DEBUG][PLANNER] LLM_CALL_START model='qwen3.5:4b' capabilities=['coding', 'computer.interaction', 'conversation'] has_understanding=True
+[DEBUG][LLM] CHAT_START model='qwen3.5:4b' system_len=4411 user_len=1552
+[DEBUG][LLM] CHAT_END elapsed='44.451s' raw_len=143 response_preview="GOAL:\nCreate the directory 'foldy', then create files '1.tt' and '2.txt' inside it.\n\nCAPABILITIES:\ncomputer.interaction, coding\n\nINTENT:\n0\n\nEND"
+[DEBUG][LLM] NORMALIZED normalized_len=143
+[DEBUG][PLANNER] LLM_CALL_END elapsed='44.451s' response_len=143 response_preview="GOAL:\nCreate the directory 'foldy', then create files '1.tt' and '2.txt' inside it.\n\nCAPABILITIES:\ncomputer.interaction, coding\n\nINTENT:\n0\n\nEND"
+[DEBUG][PLANNER] LLM_DONE elapsed='44.452s' raw_len=143 raw_preview="GOAL:\nCreate the directory 'foldy', then create files '1.tt' and '2.txt' inside it.\n\nCAPABILITIES:\ncomputer.interaction, coding\n\nINTENT:\n0\n\nEND"
+[DEBUG][PLANNER] PARSE_DONE elapsed='0.000s' raw_plan_goals=["Create the directory 'foldy', then create files '1.tt' and 
+</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ITEM 4: Project Target Changed -->
+            <div>
+                <div class="folder-row" onclick="toggleNode(this, 'content-target-changed')">
+                    <span class="sign">+</span> Devian and Zapier already took VictorOS task (project target changed) <span class="date-grey">(21Aug2026)</span>
+                </div>
+
+                <div id="content-target-changed" class="nested-container" style="display: none;">
+                    <div class="leaf-row">
+                        <span id="time-display-target-changed" class="time-display"></span>
+                    </div>
+
+                    <div>
+                        <div class="folder-row" onclick="toggleNode(this, 'content-why-target-changed')">
+                            <span class="sign">+</span> Why
+                        </div>
+                        <div id="content-why-target-changed" class="nested-container" style="display: none;">
+                            <div class="log-wrapper">
+                                <button class="copy-btn" onclick="copyLogContent(this)">Copy</button>
+<pre class="leaf-row log-text">Two Truths At The Same Time
+
+Truth 1: The features are taken.
+
+Yes. Every individual capability you've described exists somewhere. Scheduling. Automation. Coding agents. File management. Social posting. Memory. Background execution.
+
+You will not win by having features Zapier doesn't have.
+
+Truth 2: The experience is not taken.
+
+Zapier requires you to understand triggers, actions, Zaps, and API connections.
+Devin costs $500/month and targets enterprise teams.
+Make.com has a learning curve that makes normal people quit.
+AnythingLLM requires Docker and command line setup.
+
+Nobody has made this feel like talking to a person who just handles it.
+
+That gap is real. But here's the brutal honesty:
+
+That gap is a UX problem. And UX problems are the hardest and most expensive problems to solve.
+
+Harder than building features. Harder than writing code. Because you can't AI-agent your way to good UX. It requires real users, real feedback, real iteration, real time.
+
+What This Actually Means For You
+
+I've been pushing you toward a focused use case this whole conversation. But your last message tells me something important.
+
+You're starting to see what I've been seeing since the beginning:
+
+VictorOS in its current form is an integration layer on top of existing tools with a better UX promise.
+
+That's not nothing. But it's also not a $10M business by itself.</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="folder-row" onclick="toggleNode(this, 'content-next-vision')">
+                            <span class="sign">+</span> next vision
+                        </div>
+                        <div id="content-next-vision" class="nested-container" style="display: none;">
+                            <div class="log-wrapper">
+                                <button class="copy-btn" onclick="copyLogContent(this)">Copy</button>
+<pre class="leaf-row log-text">Turn into a simple version of Devian and Zapier as an AI can interact with the computer , research , code , execute commands and see the screen . That covers most of the computer actions.Finish what I created</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Reusable Date Calculation Logic ---
+        function setupTimeTracker(elementId, targetDateString) {
+            const targetDate = new Date(targetDateString);
+            const now = new Date(); // Current time
+
+            // Calculate Years, Months, and Days
+            let years = now.getFullYear() - targetDate.getFullYear();
+            let months = now.getMonth() - targetDate.getMonth();
+            let days = now.getDate() - targetDate.getDate();
+
+            // Adjust if days are negative
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
+            
+            // Adjust if months are negative
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            // Plural formatting
+            const yStr = years === 1 ? 'year' : 'years';
+            const mStr = months === 1 ? 'month' : 'months';
+            const dStr = days === 1 ? 'day' : 'days';
+
+            const ymdString = `${years} ${yStr} ${months} ${mStr} and ${days} ${dStr}`;
+            
+            // Total days for hover
+            const msPerDay = 1000 * 60 * 60 * 24;
+            const totalDays = Math.floor((now - targetDate) / msPerDay);
+            const daysString = `${totalDays} days`;
+
+            // Element Setup
+            const timeDisplay = document.getElementById(elementId);
+            
+            function itHasBeen(timeStr) {
+                return `it has been '${timeStr}'`;
+            }
+
+            // Set initial text
+            timeDisplay.innerText = itHasBeen(ymdString);
+
+            // Hover events
+            timeDisplay.addEventListener('mouseenter', () => {
+                timeDisplay.innerText = itHasBeen(daysString);
+            });
+            
+            timeDisplay.addEventListener('mouseleave', () => {
+                timeDisplay.innerText = itHasBeen(ymdString);
+            });
+        }
+
+        // Initialize the three time trackers
+        setupTimeTracker('time-display-realized', '2026-07-11T00:00:00');
+        setupTimeTracker('time-display-prototype', '2026-08-03T00:00:00');
+        setupTimeTracker('time-display-prototype2', '2026-08-17T00:00:00');
+        setupTimeTracker('time-display-target-changed', '2026-08-21T00:00:00');
+
+        // --- 2. Dynamic Toggle Logic ---
+        function toggleNode(btnElement, contentId) {
+            const content = document.getElementById(contentId);
+            const signSpan = btnElement.querySelector('.sign');
+
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                signSpan.innerText = '-';
+            } else {
+                content.style.display = 'none';
+                signSpan.innerText = '+';
+            }
+        }
+
+        // --- 3. Copy Log Content Function ---
+        function copyLogContent(buttonElement) {
+            const wrapper = buttonElement.closest('.log-wrapper');
+            const preElement = wrapper.querySelector('pre');
+            const textToCopy = preElement.innerText;
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const originalText = buttonElement.innerText;
+                buttonElement.innerText = 'Copied!';
+                setTimeout(() => {
+                    buttonElement.innerText = originalText;
+                }, 1500);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
